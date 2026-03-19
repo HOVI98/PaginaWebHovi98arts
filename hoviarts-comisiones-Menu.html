@@ -443,65 +443,6 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 }
 .slots-notice strong { color: var(--cream); }
 
-
-.clause-note {
-  font-size: clamp(12px,1.6vw,14px);
-  color: var(--cream-muted);
-  font-style: italic;
-  text-align: center;
-  max-width: 640px;
-  margin: clamp(24px,3vw,36px) auto 0;
-  line-height: 1.75;
-  border-top: 1px solid rgba(201,144,26,0.1);
-  padding-top: clamp(18px,2.5vw,26px);
-}
-
-
-/* AVATAR TABS */
-.avatar-tabs { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:clamp(20px,3vw,32px); }
-.avatar-tab {
-  font-family:'Cinzel',serif; font-size:clamp(11px,1.6vw,13px); font-weight:700;
-  letter-spacing:2px; text-transform:uppercase; color:var(--cream-dim);
-  background:var(--card-bg); border:1px solid rgba(201,144,26,0.2);
-  padding:10px 24px; border-radius:999px; cursor:pointer;
-  transition:all .25s ease;
-}
-.avatar-tab:hover { color:var(--cream); border-color:rgba(201,144,26,0.5); }
-.avatar-tab.active {
-  color:var(--bg); font-weight:700;
-  background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--crimson-glow));
-  border-color:transparent;
-  box-shadow:0 0 24px rgba(200,0,62,0.25);
-}
-
-/* AVATAR GALLERY */
-.gallery-section { margin-top:clamp(24px,3vw,36px); }
-.gallery-label {
-  font-family:'Cinzel',serif; font-size:clamp(9px,1.4vw,11px);
-  font-weight:700; letter-spacing:3px; text-transform:uppercase;
-  color:var(--crimson-glow); margin-bottom:14px;
-}
-.gallery-track-wrap { position:relative; overflow:hidden; border-radius:14px;
-  border:1px solid rgba(201,144,26,0.15); }
-.gallery-track { display:flex; transition:transform .5s cubic-bezier(.16,1,.3,1); }
-.gallery-slide { min-width:100%; }
-.gallery-slide img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
-.gallery-arrow { position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(8,4,8,0.75); border:1px solid rgba(201,144,26,0.3);
-  color:var(--gold); width:clamp(36px,5vw,44px); height:clamp(36px,5vw,44px);
-  border-radius:50%; cursor:pointer; font-size:20px;
-  display:flex; align-items:center; justify-content:center;
-  transition:background .2s; z-index:10; }
-.gallery-arrow:hover { background:rgba(200,0,62,0.35); color:var(--cream); }
-.gallery-arrow.gl { left:10px; } .gallery-arrow.gr { right:10px; }
-.gallery-dots { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; justify-content:center; }
-.gallery-dot { width:7px; height:7px; border-radius:50%;
-  background:rgba(201,144,26,0.25); border:none; cursor:pointer;
-  transition:background .25s,transform .25s; }
-.gallery-dot.active { background:var(--gold); transform:scale(1.35); }
-.no-gallery { font-size:13px; color:var(--cream-muted); font-style:italic;
-  text-align:center; padding:20px 0; }
-
 </style>
 </head>
 <body>
@@ -524,7 +465,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
   </div>
   <h1 class="hero-title">HoviArts</h1>
   <p class="hero-subtitle">Diseño de Animación Digital &amp; 3D &nbsp;·&nbsp; Licenciatura en Animación</p>
-  <p class="hero-desc">Doy vida a tus personajes y mundos 3D con fidelidad absoluta a tu visión. Avatares para VRChat, outfits, assets y mundos 3D creados con mucha dedicación y atención al detalle.</p>
+  <p class="hero-desc">Doy vida a tus personajes con fidelidad a tu visión. Avatares para VRChat, outfits, assets y mundos 3D con atención al detalle y dedicación para ofrecer la mejor calidad posible.</p>
 </div>
 
 <div class="orn-div wrap"><span class="orn-inner">✦ ✦ ✦</span></div>
@@ -534,7 +475,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
   <div class="wrap">
     <p class="sec-label">✦ Avatares VTuber (VRChat, VRM, etc...)</p>
     <h2 class="sec-title">Paquetes de Avatar</h2>
-    <p class="sec-desc">Tu identidad en 3D — impacto visual que se nota desde el primer segundo en VRChat. Elige tu nivel de entrada y crece desde ahí.</p>
+    <p class="sec-desc">Impacto visual que se nota desde el primer segundo. Elige tu nivel de entrada y crece desde ahí.</p>
     <div class="slots-notice">🔴 <strong>Slots limitados disponibles</strong> — actualmente con pocos lugares abiertos. Los precios de apertura aplican solo mientras duran.</div>
     <div class="pkg-grid">
 
@@ -594,7 +535,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
         <ul class="inc">
           <li><span>Personalización <strong>Avanzado</strong> + blendshapes faciales</span></li>
           <li><span><strong>2 outfits</strong> + 2 assets con PhysBones</span></li>
-          <li><span>Menú ilustrado + VRM (VSeeFace, Warudo) + <strong>icono 2D chibi</strong></span></li>
+          <li><span>Menú ilustrado + VRM + <strong>icono 2D chibi</strong></span></li>
         </ul>
         <div class="card-price">
           <div><div class="price-label">Precio apertura</div><div class="price-open">$750 <small>USD</small></div></div>
@@ -635,49 +576,231 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
   <div class="wrap">
     <p class="sec-label">✦ Portfolio — Avatares</p>
     <h2 class="sec-title">Referencia 2D &rarr; Resultado 3D</h2>
-    <p class="sec-desc">Selecciona un avatar para ver su comparación y galería de fotos.</p>
-
-    <!-- Tabs generados dinámicamente -->
-    <div class="avatar-tabs" id="avatarTabs"></div>
-
-    <!-- Comparación 2D/3D -->
-    <div class="avatar-pair" id="avatarComparison">
-      <div class="pair-card">
-        <span class="badge-2d">2D Ref</span>
-        <img id="cmp2d" alt="Referencia 2D">
-        <div class="pair-label"><em id="cmpName2d"></em> &mdash; Referencia 2D</div>
+    <p class="sec-desc">Cada avatar es fiel a su dise&ntilde;o original. Desliza para ver los proyectos.</p>
+    <div class="avatar-carousel" id="avatarCarousel">
+      <div class="avatar-track" id="avatarTrack">
+        <div class="avatar-slide">
+          <div class="avatar-pair">
+            <div class="pair-card">
+              <span class="badge-2d">2D Ref</span>
+              <img id="img-nekkowa2d" alt="Nekkowa referencia 2D">
+              <div class="pair-label"><em>Nekkowa</em> &mdash; Referencia 2D</div>
+            </div>
+            <div class="pair-card">
+              <span class="badge-3d">3D VRChat</span>
+              <img id="img-nekkowa3d" alt="Nekkowa 3D VRChat">
+              <div class="pair-label"><em>Nekkowa</em> &mdash; Resultado 3D</div>
+            </div>
+          </div>
+        </div>
+        <div class="avatar-slide">
+          <div class="avatar-pair">
+            <div class="pair-card">
+              <span class="badge-2d">2D Ref</span>
+              <img id="img-dark2d" alt="Albedo Personalizada referencia 2D">
+              <div class="pair-label"><em>Albedo Personalizada</em> &mdash; Referencia 2D</div>
+            </div>
+            <div class="pair-card">
+              <span class="badge-3d">3D VRChat</span>
+              <img id="img-dark3d" alt="Albedo Personalizada 3D VRChat">
+              <div class="pair-label"><em>Albedo Personalizada</em> &mdash; Resultado 3D</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="pair-card">
-        <span class="badge-3d">3D VRChat</span>
-        <img id="cmp3d" alt="Resultado 3D">
-        <div class="pair-label"><em id="cmpName3d"></em> &mdash; Resultado 3D</div>
-      </div>
+      <button class="pair-arrow left" onclick="moveAvatar(-1)">&#8249;</button>
+      <button class="pair-arrow right" onclick="moveAvatar(1)">&#8250;</button>
+    </div>
+    <div class="pair-dots" id="avatarDots">
+      <button class="pair-dot active" onclick="goAvatar(0)"></button>
+      <button class="pair-dot" onclick="goAvatar(1)"></button>
     </div>
 
-    <!-- Galería del avatar -->
-    <div class="gallery-section" id="avatarGallery">
-      <p class="gallery-label">✦ Galería de Fotos</p>
-      <div class="gallery-track-wrap" id="galleryWrap">
-        <div class="gallery-track" id="galleryTrack"></div>
-        <button class="gallery-arrow gl" onclick="galleryMove(-1)">&#8249;</button>
-        <button class="gallery-arrow gr" onclick="galleryMove(1)">&#8250;</button>
+  </div>
+</div>
+<div class="hr-line"></div>
+
+<!-- LIVE2D BUTTON -->
+<div class="live2d-section">
+  <div class="live2d-inner">
+    <img class="live2d-sticker" id="img-live2d-sticker" alt="Nekkowa chibi sticker">
+    <a href="https://nekkowa.jimdosite.com/" target="_blank" class="live2d-btn">
+      <i class="fas fa-star" style="display:none"></i>
+      <span style="font-size:clamp(16px,2.5vw,22px); line-height:1;">✦</span>
+      <span>
+        Crea tu personaje Live 2D
+        <span class="live2d-sublabel">by Nekkowa — Comisiones abiertas</span>
+      </span>
+    </a>
+  </div>
+</div>
+
+<div class="hr-line"></div>
+
+<!-- ── MAPAS ── -->
+<div class="section">
+  <div class="wrap">
+    <p class="sec-label">✦ Mapas VR</p>
+    <h2 class="sec-title">Paquetes de Mapa</h2>
+    <p class="sec-desc">Desde una sala íntima hasta un reino completamente original. Diseñado desde cero o con assets según tu visión.</p>
+    <div class="pkg-grid">
+
+      <div class="pkg-card" data-pkg="hideout" onclick="openModal('hideout')">
+        <div class="card-head">
+          <span class="card-icon">🏠</span>
+          <div class="card-head-text">
+            <h3 class="card-name">Hideout</h3>
+            <p class="card-tagline">"Tu espacio personal"</p>
+          </div>
+        </div>
+        <div class="card-div"></div>
+        <ul class="inc">
+          <li><span>Mundo tipo <strong>sala o habitación</strong> con tu estilo</span></li>
+          <li><span>5 props + espejo + pedestal de avatar</span></li>
+          <li><span>Iluminación personalizada + subida incluida</span></li>
+        </ul>
+        <div class="card-price">
+          <div><div class="price-label">Precio apertura</div><div class="price-open">$280 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$380 USD</div></div>
+        </div>
+        <div class="card-hint">✦ Clic para ver desglose completo</div>
       </div>
-      <div class="gallery-dots" id="galleryDots"></div>
+
+      <div class="pkg-card feat" data-pkg="studio" onclick="openModal('studio')">
+        <span class="tier-badge red">✦ Popular</span>
+        <div class="card-head">
+          <span class="card-icon">🎙️</span>
+          <div class="card-head-text">
+            <h3 class="card-name">Studio</h3>
+            <p class="card-tagline">"Tu escenario de transmisión"</p>
+          </div>
+        </div>
+        <div class="card-div"></div>
+        <ul class="inc">
+          <li><span><strong>2 zonas</strong> — escenario + lounge para tu comunidad</span></li>
+          <li><span><strong>Video player</strong> + audio + 10 props personalizados</span></li>
+          <li><span>Iluminación mood + subida incluida</span></li>
+        </ul>
+        <div class="card-price">
+          <div><div class="price-label">Precio apertura</div><div class="price-open">$480 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$650 USD</div></div>
+        </div>
+        <div class="card-hint">✦ Clic para ver desglose completo</div>
+      </div>
+
+      <div class="pkg-card crown" data-pkg="landmark" onclick="openModal('landmark')">
+        <span class="tier-badge gld">👑 Premium</span>
+        <div class="card-head">
+          <span class="card-icon">🏰</span>
+          <div class="card-head-text">
+            <h3 class="card-name">Landmark</h3>
+            <p class="card-tagline">"Un mundo que te define"</p>
+          </div>
+        </div>
+        <div class="card-div"></div>
+        <ul class="inc">
+          <li><span><strong>3+ zonas</strong> con assets propios + Udon interactivo</span></li>
+          <li><span>Video player + AudioLink + <strong>Quest compatible</strong></span></li>
+          <li><span>Iluminación bakeada + slot prioritario</span></li>
+        </ul>
+        <div class="card-price">
+          <div><div class="price-label">Precio apertura</div><div class="price-open" style="font-size:clamp(16px,3vw,22px)">$750–$1,100 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$1,000–$1,500 USD</div></div>
+        </div>
+        <div class="card-hint">✦ Clic para ver desglose completo</div>
+      </div>
+
     </div>
   </div>
-</div><!-- PORTFOLIO WORLDS -->
+</div>
+
+
+<!-- PORTFOLIO MUNDOS -->
 <div class="portfolio-section">
   <div class="wrap">
     <p class="sec-label">✦ Portfolio &mdash; Mundos</p>
-    <h2 class="sec-title">Mapas y Worlds VRChat</h2>
+    <h2 class="sec-title">Mapas y Mundos VRChat</h2>
     <p class="sec-desc">Ambientes &uacute;nicos construidos para cada creador.</p>
+
     <div class="map-carousel" id="mapCarousel">
-      <div class="map-track" id="mapTrack"></div>
+      <div class="map-track" id="mapTrack">
+        <div class="map-slide">
+          <img id="img-map1" alt="Mundo VRChat">
+          <div class="map-slide-label">Mundo VRChat &mdash; Estilo Evangelion</div>
+        </div>
+
+        <div class="map-slide">
+          <img id="img-map2" alt="Mundo VRChat — Evangelion playa">
+          <div class="map-slide-label">Mundo VRChat &mdash; Playa Evangelion</div>
+        </div>
+        <div class="map-slide">
+          <img id="img-map3" alt="Mundo VRChat — Candy World">
+          <div class="map-slide-label">Mundo VRChat &mdash; Candy World (vista general)</div>
+        </div>
+        <div class="map-slide">
+          <img id="img-map4" alt="Mundo VRChat — Candy World detalle">
+          <div class="map-slide-label">Mundo VRChat &mdash; Candy World (detalle)</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip1" alt="Trevor Henderson Map — Pasillo interior">
+          <div class="map-slide-label">Trevor Henderson Map — Pasillo interior</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip2" alt="Trevor Henderson Map — Zona oscura">
+          <div class="map-slide-label">Trevor Henderson Map — Zona oscura</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip3" alt="Trevor Henderson Map — Edificio exterior">
+          <div class="map-slide-label">Trevor Henderson Map — Edificio exterior</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip4" alt="Trevor Henderson Map — Azotea noche">
+          <div class="map-slide-label">Trevor Henderson Map — Azotea noche</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip5" alt="Trevor Henderson Map — Corredor graffiti">
+          <div class="map-slide-label">Trevor Henderson Map — Corredor graffiti</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip6" alt="Trevor Henderson Map — Interior oscuro">
+          <div class="map-slide-label">Trevor Henderson Map — Interior oscuro</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip7" alt="Trevor Henderson Map — Vista Unity (en desarrollo)">
+          <div class="map-slide-label">Trevor Henderson Map — Vista Unity (en desarrollo)</div>
+        </div>
+        <div class="map-slide">
+          <span class="wip-badge">✦ WIP</span>
+          <img id="img-wip8" alt="Casa Nekkowa — Bosque (en desarrollo)">
+          <div class="map-slide-label">Casa Nekkowa — Bosque (en desarrollo)</div>
+        </div>
+      </div>
       <button class="map-arrow left" onclick="moveMap(-1)">&#8249;</button>
       <button class="map-arrow right" onclick="moveMap(1)">&#8250;</button>
     </div>
-    <div class="map-dots" id="mapDots"></div>
+    <div class="map-dots" id="mapDots">
+      <button class="map-dot active" onclick="goMap(0)"></button>
+      <button class="map-dot" onclick="goMap(1)"></button>
+      <button class="map-dot" onclick="goMap(2)"></button>
+      <button class="map-dot" onclick="goMap(3)"></button>
+      <button class="map-dot" onclick="goMap(4)"></button>
+      <button class="map-dot" onclick="goMap(5)"></button>
+      <button class="map-dot" onclick="goMap(6)"></button>
+      <button class="map-dot" onclick="goMap(7)"></button>
+      <button class="map-dot" onclick="goMap(8)"></button>
+      <button class="map-dot" onclick="goMap(9)"></button>
+      <button class="map-dot" onclick="goMap(10)"></button>
+      <button class="map-dot" onclick="goMap(11)"></button>
+    </div>
   </div>
+</div>
 </div>
 
 <div class="hr-line"></div>
@@ -686,7 +809,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <div class="price-btn-wrap">
   <button class="price-btn" id="priceBtn" onclick="togglePrices()">
     <span id="btnTxt">Ver desglose de servicios individuales</span>
-    <span class="chev" id="btnChev" style="font-size:1.1em;line-height:1;">▾</span>
+    <span class="chev" id="btnChev" style="font-size:1.1em; line-height:1;">▾</span>
   </button>
 </div>
 
@@ -694,9 +817,11 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <div id="precios">
   <div class="prices-inner">
     <div class="wrap">
+
       <div class="price-note">
         <strong>✦ Slots de apertura activos — plazas limitadas.</strong> Precios de entrada disponibles mientras queden slots disponibles. Una vez agotados se aplican precios regulares. Todos los precios en <strong>USD</strong>. Reserva tu slot con 50% de anticipo.
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Personalización de Avatar — Base existente</p>
         <div class="tbl-wrap"><table>
@@ -710,6 +835,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           </tbody>
         </table></div>
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Ropa y Outfits</p>
         <div class="tbl-wrap"><table>
@@ -722,6 +848,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           </tbody>
         </table></div>
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Assets del Personaje</p>
         <div class="tbl-wrap"><table>
@@ -733,6 +860,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           </tbody>
         </table></div>
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Huesos y Physics — PhysBones VRChat</p>
         <div class="tbl-wrap"><table>
@@ -743,6 +871,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           </tbody>
         </table></div>
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Menú de Expresiones e Iconos</p>
         <div class="tbl-wrap"><table>
@@ -753,17 +882,19 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           </tbody>
         </table></div>
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Conversión de Formato</p>
         <div class="tbl-wrap"><table>
           <thead><tr><th>Formato</th><th>Costo adicional</th></tr></thead>
           <tbody>
-            <tr><td>VRM — VSeeFace, Warudo, Resonite, etc.</td><td class="p-open">+$50–$90</td></tr>
+            <tr><td>VRM — VSeeFace, Resonite, etc.</td><td class="p-open">+$50–$90</td></tr>
             <tr><td>FBX / archivos sueltos</td><td class="p-open">+$25–$45</td></tr>
             <tr><td>Otros formatos</td><td class="p-open">Cotización</td></tr>
           </tbody>
         </table></div>
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Worlds VRChat — Servicios Individuales</p>
         <div class="tbl-wrap"><table>
@@ -775,6 +906,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           </tbody>
         </table></div>
       </div>
+
       <div class="price-block">
         <p class="price-block-title">Add-ons para Worlds</p>
         <div class="tbl-wrap"><table>
@@ -789,11 +921,10 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           </tbody>
         </table></div>
       </div>
+
     </div>
   </div>
 </div>
-
-<div class="hr-line"></div>
 
 <!-- ── CONDITIONS ── -->
 <div class="section">
@@ -817,8 +948,12 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
         <h3 class="cond-title">Requisitos</h3>
         <p class="cond-text">Para avatares, el cliente llega con <strong>referencia clara</strong> — diseño 2D o descripción detallada. Para mapas se incluye etapa de concepto inicial. Toda comunicación por escrito.</p>
       </div>
+      <div class="cond-card">
+        <span class="cond-icon">🛡️</span>
+        <h3 class="cond-title">Derecho de Admisión</h3>
+        <p class="cond-text">Me reservo el derecho de <strong>aceptar o rechazar cualquier proyecto</strong> que vaya en contra de mis principios o valores, sin necesidad de dar una justificación detallada. Esto aplica antes de iniciar cualquier acuerdo formal.</p>
+      </div>
     </div>
-    <p class="clause-note">✦ Me reservo el derecho de aceptar o declinar cualquier comisión sin necesidad de justificación. No acepto trabajos que vayan en contra de mis valores, que no cuenten con una referencia clara, o que presenten condiciones irrazonables. Cada comisión es un proyecto personal en el que pongo dedicación — por eso elijo con cuidado con quién trabajo.</p>
   </div>
 </div>
 
@@ -835,7 +970,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
       <a href="https://instagram.com/hovi98vr/"       target="_blank" class="soc-btn instagram"> <i class="fab fa-instagram"></i>  Instagram  </a>
       <a href="https://twitch.tv/hovi98vr"            target="_blank" class="soc-btn twitch">     <i class="fab fa-twitch"></i>     Twitch     </a>
       <a href="https://www.artstation.com/hoviarts"   target="_blank" class="soc-btn artstation"><i class="fab fa-artstation"></i> ArtStation </a>
-      <a href="/cdn-cgi/l/email-protection#8be3e4fde2b2b3eaf9fff8cbece6eae2e7a5e8e4e6" class="soc-btn email">      <i class="fas fa-envelope"></i>   Correo     </a>
+      <a href="/cdn-cgi/l/email-protection#88e0e7fee1b1b0e9fafcfbc8efe5e9e1e4a6ebe7e5" class="soc-btn email">      <i class="fas fa-envelope"></i>   Correo     </a>
     </div>
     <p class="contact-note">Respuesta en <strong>24–48 horas</strong>. Incluye tu referencia 2D y el paquete de interés para agilizar la cotización.</p>
   </div>
@@ -843,7 +978,312 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 
 <footer>HoviArts &nbsp;·&nbsp; Diseño de Animación Digital & 3D &nbsp;·&nbsp; Todos los derechos reservados</footer>
 
-</div><!-- /page -->
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── STARFIELD ── */
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [];
+let mouseX = 0, mouseY = 0;
+let targetMX = 0, targetMY = 0;
+let scrollY = 0;
+
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+function makeStars() {
+  stars = [];
+  const n = Math.min(280, Math.floor(W * H / 4500));
+  for (let i = 0; i < n; i++) {
+    const layer = Math.random(); // 0=far, 1=near
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: layer * 1.2 + 0.2,                    // near stars bigger
+      a: Math.random() * 0.7 + 0.2,
+      sp: Math.random() * 0.04 + 0.015,        // twinkle speed — faster & noticeable
+      ph: Math.random() * Math.PI * 2,
+      warm: Math.random() > 0.65,
+      layer: layer,                             // parallax depth
+      // occasional "bright flash" star
+      flash: Math.random() > 0.88
+    });
+  }
+}
+
+let t = 0;
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // smooth mouse interpolation
+  mouseX += (targetMX - mouseX) * 0.05;
+  mouseY += (targetMY - mouseY) * 0.05;
+
+  for (const s of stars) {
+    // twinkle: sine wave with individual speed and phase
+    const twinkle = 0.25 + 0.75 * Math.sin(t * s.sp + s.ph);
+    let alpha = s.a * twinkle;
+
+    // flash stars briefly bloom
+    if (s.flash) {
+      const flashPulse = Math.pow(Math.max(0, Math.sin(t * s.sp * 0.5 + s.ph)), 8);
+      alpha = Math.min(1, alpha + flashPulse * 0.9);
+    }
+
+    // parallax offset — near stars move more
+    const strength = s.layer * 28;
+    const px = s.x + (mouseX / W - 0.5) * strength;
+    const py = s.y + (mouseY / H - 0.5) * strength + (scrollY * s.layer * 0.08);
+
+    // size breathes slightly with twinkle
+    const radius = s.r * (0.85 + 0.15 * twinkle);
+
+    // color
+    if (s.flash && alpha > 0.85) {
+      // flash stars get a warm golden bloom
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(240,200,120,0.8)';
+    } else {
+      ctx.shadowBlur = 0;
+    }
+
+    ctx.fillStyle = s.warm
+      ? `rgba(240,180,120,${alpha * 0.8})`
+      : `rgba(245,228,215,${alpha})`;
+
+    ctx.beginPath();
+    ctx.arc(px, py, radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.shadowBlur = 0;
+  t++;
+  requestAnimationFrame(draw);
+}
+
+// mouse parallax
+document.addEventListener('mousemove', function(e) {
+  targetMX = e.clientX;
+  targetMY = e.clientY;
+});
+
+// scroll parallax
+window.addEventListener('scroll', function() {
+  scrollY = window.scrollY;
+}, { passive: true });
+
+resize(); makeStars();
+window.addEventListener('resize', () => { resize(); makeStars(); });
+requestAnimationFrame(draw);
+
+/* ── PRICE TOGGLE ── */
+window.togglePrices = function() {
+  const sec = document.getElementById('precios');
+  const btn = document.getElementById('priceBtn');
+  const txt = document.getElementById('btnTxt');
+  const open = sec.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  txt.textContent = open ? 'Ocultar desglose de precios' : 'Ver desglose de servicios individuales';
+  if (open) setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+};
+
+  document.getElementById('img-nekkowa2d').src = 'https://cdnb.artstation.com/p/assets/images/images/097/343/757/large/hoviarts-0.jpg?1773885954';
+  document.getElementById('img-nekkowa3d').src = 'https://cdna.artstation.com/p/assets/images/images/097/343/732/large/hoviarts-0.jpg?1773885895';
+  document.getElementById('img-dark2d').src    = 'https://cdna.artstation.com/p/assets/images/images/097/344/012/large/hoviarts-0.jpg?1773886817';
+  document.getElementById('img-dark3d').src    = 'https://cdna.artstation.com/p/assets/images/images/097/344/014/large/hoviarts-0.jpg?1773886823';
+  document.getElementById('img-map1').src      = 'https://cdna.artstation.com/p/assets/images/images/092/610/662/large/hoviarts-vrchat-2024-06-18-04-54-10-260-1920x1080.webp?1760121785';
+  document.getElementById('img-hovi-avatar').src = 'https://cdn.discordapp.com/attachments/1483939512886231131/1483940354989490377/0.png?ex=69bc6aa6&is=69bb1926&hm=b89f432e854681fb259bfc88be4dd3ddbb5ff3adf5d262610a60c9abd3990704';
+  document.getElementById('img-map2').src      = 'https://cdna.artstation.com/p/assets/images/images/092/610/658/large/hoviarts-vrchat-2024-06-18-04-54-53-711-1920x1080.webp?1760121782';
+  document.getElementById('img-map3').src      = 'https://cdnb.artstation.com/p/assets/images/images/097/343/477/large/hoviarts-0.jpg?1773885178';
+  document.getElementById('img-map4').src      = 'https://cdna.artstation.com/p/assets/images/images/097/343/480/large/hoviarts-1.jpg?1773885182';
+  document.getElementById('img-wip1').src      = 'https://cdnb.artstation.com/p/assets/images/images/097/343/491/large/hoviarts-2.jpg?1773885208';
+  document.getElementById('img-wip2').src      = 'https://cdna.artstation.com/p/assets/images/images/097/343/494/large/hoviarts-3.jpg?1773885212';
+  document.getElementById('img-wip3').src      = 'https://cdnb.artstation.com/p/assets/images/images/097/343/489/large/hoviarts-1.jpg?1773885204';
+  document.getElementById('img-wip4').src      = 'https://cdna.artstation.com/p/assets/images/images/097/343/496/large/hoviarts-5.jpg?1773885218';
+  document.getElementById('img-wip5').src      = 'https://cdnb.artstation.com/p/assets/images/images/097/343/501/large/hoviarts-8.jpg?1773885225';
+  document.getElementById('img-wip6').src      = 'https://cdnb.artstation.com/p/assets/images/images/097/343/495/large/hoviarts-4.jpg?1773885215';
+  document.getElementById('img-wip7').src      = 'https://cdnb.artstation.com/p/assets/images/images/097/343/487/large/hoviarts-0.jpg?1773885200';
+  document.getElementById('img-wip8').src      = 'https://cdna.artstation.com/p/assets/images/images/097/343/498/large/hoviarts-6.jpg?1773885222';
+
+  var avatarIdx = 0;
+  var avatarTotal = 2;
+  function updateAvatar() {
+    document.getElementById('avatarTrack').style.transform = 'translateX(-' + (avatarIdx * 100) + '%)';
+    document.querySelectorAll('#avatarDots .pair-dot').forEach(function(d,i){ d.classList.toggle('active', i===avatarIdx); });
+  }
+  window.moveAvatar = function(dir) { avatarIdx = (avatarIdx + dir + avatarTotal) % avatarTotal; updateAvatar(); };
+  window.goAvatar = function(i) { avatarIdx = i; updateAvatar(); };
+
+  /* MAP CAROUSEL */
+  var mapIdx = 0;
+  var mapTotal = 12;
+  function updateMap() {
+    document.getElementById('mapTrack').style.transform = 'translateX(-' + (mapIdx * 100) + '%)';
+    document.querySelectorAll('#mapDots .map-dot').forEach(function(d,i){ d.classList.toggle('active', i===mapIdx); });
+  }
+  window.moveMap = function(dir) { mapIdx = (mapIdx + dir + mapTotal) % mapTotal; updateMap(); };
+  window.goMap = function(i) { mapIdx = i; updateMap(); };
+
+  
+  document.getElementById('img-live2d-sticker').src = 'https://cdn.discordapp.com/attachments/1483939512886231131/1483943360065703986/0.png?ex=69bc6d73&is=69bb1bf3&hm=b4e5f594ff5e93ae1c0bb646d0da5a39cfc9dbc1b32461845c762a9015a999bd';
+
+/* ── AVATAR SLIDE ON CLICK ── */
+  (function() {
+    const wrap = document.getElementById('hoviAvatar');
+    let onRight = false;
+
+    // Set initial position CSS
+    wrap.style.transition = 'left 0.45s cubic-bezier(.16,1,.3,1)';
+    const isMobile = window.innerWidth <= 500;
+    const initMargin = isMobile ? 12 : Math.max(40, wrap.parentElement.offsetWidth * 0.06);
+    wrap.style.left = initMargin + 'px';
+    wrap.style.right = 'auto';
+
+    window.danceAvatar = function() {
+      const heroW = wrap.parentElement.offsetWidth;
+      const avatarW = wrap.offsetWidth;
+      const isMobile = window.innerWidth <= 500;
+      const margin = isMobile ? 12 : Math.max(40, heroW * 0.06);
+      const maxX = heroW - avatarW - margin;
+
+      wrap.classList.add('dancing');
+      setTimeout(function() { wrap.classList.remove('dancing'); }, 580);
+
+      onRight = !onRight;
+      wrap.style.left = onRight ? maxX + 'px' : margin + 'px';
+    };
+  })();
+
+/* ── MODAL DATA ── */
+const pkgData = {
+  starter: {
+    icon: '✨', name: 'Starter', tag: '"Tu primera identidad 3D" — Avatar VRChat',
+    rows: [
+      { name: 'Personalización de avatar <strong>Starter</strong> — retexturizado y ajustes básicos', price: '$110' },
+      { name: '<strong>1 outfit simple</strong> — retexturizado y materiales', price: '$55' },
+      { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
+    ],
+    sum: '~$165', open: '$150', saving: '~$15'
+  },
+  debut: {
+    icon: '⭐', name: 'Debut', tag: '"Marca tu debut con estilo" — Avatar VRChat',
+    rows: [
+      { name: 'Personalización de avatar <strong>Estándar</strong>', price: '$220' },
+      { name: '<strong>1 outfit complejo</strong> — edición profunda de forma y materiales', price: '$170' },
+      { name: '<strong>1 asset</strong> del personaje nivel medio', price: '$80' },
+      { name: '<strong>PhysBones</strong> para el asset', price: '$30' },
+      { name: 'Menú básico de expresiones', price: '$35' },
+      { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
+    ],
+    sum: '~$535', open: '$500', saving: '~$35'
+  },
+  signature: {
+    icon: '🌟', name: 'Signature', tag: '"Branding completo, impacto real" — Avatar VRChat',
+    rows: [
+      { name: 'Personalización de avatar <strong>Avanzado</strong> + blendshapes faciales', price: '$320' },
+      { name: '<strong>2 outfits complejos</strong> — casual y evento/stream', price: '$310' },
+      { name: '<strong>2 assets</strong> del personaje', price: '$130' },
+      { name: '<strong>PhysBones</strong> para ambos assets', price: '$50' },
+      { name: 'Menú completo con <strong>iconos ilustrados</strong>', price: '$70' },
+      { name: '<strong>Conversión VRM</strong> — compatible VSeeFace', price: '$55' },
+      { name: '<strong>1 icono 2D chibi</strong> de tu avatar — para redes y perfil', price: '$65' },
+      { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
+    ],
+    sum: '~$1,000', open: '$750', saving: '~$250'
+  },
+  prestige: {
+    icon: '👑', name: 'Prestige', tag: '"El estándar de los grandes creadores" — Avatar VRChat',
+    rows: [
+      { name: 'Personalización de avatar <strong>Avanzado</strong> — máximo detalle', price: '$360' },
+      { name: '<strong>3 outfits personalizados</strong> — casual, evento y temático', price: '$520' },
+      { name: '<strong>3 assets</strong> del personaje — puede incluir uno complejo', price: '$260' },
+      { name: '<strong>PhysBones</strong> para los 3 assets', price: '$100' },
+      { name: 'Menú completo con <strong>iconos ilustrados</strong>', price: '$80' },
+      { name: '<strong>Conversión VRM</strong> — compatible VSeeFace', price: '$55' },
+      { name: '<strong>1 icono 2D chibi</strong> de tu avatar — para redes y perfil', price: '$65' },
+      { name: '<strong>Acceso prioritario</strong> + revisión extra', price: 'incl.' },
+      { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
+    ],
+    sum: '~$1,440', open: '$1,350', saving: '~$90'
+  },
+  hideout: {
+    icon: '🏠', name: 'Hideout', tag: '"Tu espacio personal" — World VRChat',
+    rows: [
+      { name: 'World <strong>simple</strong> — habitación/sala personalizada', price: '$200' },
+      { name: '<strong>5 props decorativos</strong> temáticos', price: '$110' },
+      { name: '<strong>1 espejo</strong> + <strong>1 pedestal de avatar</strong>', price: '$45' },
+      { name: 'Iluminación ambiental personalizada', price: 'incl.' },
+      { name: 'Subida a tu cuenta de VRChat', price: 'incl.' },
+    ],
+    sum: '~$355', open: '$280', saving: '~$75'
+  },
+  studio: {
+    icon: '🎙️', name: 'Studio', tag: '"Tu escenario de transmisión" — World VRChat',
+    rows: [
+      { name: 'World <strong>medio</strong> — escenario + lounge, 2 zonas', price: '$380' },
+      { name: '<strong>10 props personalizados</strong> temáticos', price: '$180' },
+      { name: '<strong>Video player</strong> integrado (Pro TV)', price: '$40' },
+      { name: 'Sistema de <strong>audio básico</strong>', price: '$40' },
+      { name: 'Espejo + <strong>2 pedestales de avatar</strong>', price: '$45' },
+      { name: 'Iluminación avanzada con mood personalizado', price: 'incl.' },
+      { name: 'Subida a tu cuenta de VRChat', price: 'incl.' },
+    ],
+    sum: '~$685', open: '$480', saving: '~$205'
+  },
+  landmark: {
+    icon: '🏰', name: 'Landmark', tag: '"Un mundo que te define" — World VRChat',
+    rows: [
+      { name: 'World <strong>complejo</strong> — 3+ zonas, según complejidad', price: '$700–$1,100' },
+      { name: '<strong>Assets propios</strong> modelados — según lore/estética', price: '$150–$250' },
+      { name: '<strong>Video player + AudioLink</strong> completo', price: '$80' },
+      { name: 'Interactividad <strong>Udon</strong> — puertas, botones, efectos', price: 'incl.' },
+      { name: '<strong>Compatibilidad Quest</strong> — optimización adicional', price: '$70' },
+      { name: 'Iluminación <strong>bakeada</strong> de alta calidad', price: '$55' },
+      { name: '<strong>Prioridad en lista de espera</strong>', price: 'incl.' },
+      { name: 'Subida a tu cuenta de VRChat', price: 'incl.' },
+    ],
+    sum: '~$1,055–$1,555', open: '$750–$1,100', saving: '~$300–$455'
+  }
+};
+
+window.openModal = function(pkg) {
+  const d = pkgData[pkg];
+  if (!d) return;
+  document.getElementById('mIcon').textContent = d.icon;
+  document.getElementById('mName').textContent = d.name;
+  document.getElementById('mTag').textContent  = d.tag;
+  document.getElementById('mSumVal').textContent  = d.sum + ' USD';
+  document.getElementById('mOpenVal').textContent = d.open + ' USD';
+  const saving = pkg === 'landmark'
+    ? `Ahorro estimado de <span>${d.saving} USD</span> vs contratar por separado`
+    : `Ahorro de <span>${d.saving} USD</span> vs contratar por separado`;
+  document.getElementById('mSaving').innerHTML = saving;
+  const rows = d.rows.map(r =>
+    `<div class="modal-row">
+      <span class="modal-row-name">${r.name}</span>
+      <span class="modal-row-price">${r.price}</span>
+    </div>`
+  ).join('');
+  document.getElementById('mRows').innerHTML = rows;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeModalBtn = function() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+window.closeModal = function(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    closeModalBtn();
+  }
+};
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalBtn();
+});
+</script>
 
 <!-- ── MODAL ── -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
@@ -851,157 +1291,23 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
     <button class="modal-close" onclick="closeModalBtn()">✕</button>
     <span class="modal-pkg-icon" id="mIcon"></span>
     <h2 class="modal-pkg-name" id="mName"></h2>
-    <p class="modal-pkg-tag" id="mTag"></p>
+    <p class="modal-pkg-tag"  id="mTag"></p>
     <div class="modal-div"></div>
     <p class="modal-section-title">Desglose de servicios incluidos</p>
     <div class="modal-rows" id="mRows"></div>
     <div class="modal-total-block">
-      <div class="modal-total-row"><span class="modal-total-label">Suma por separado</span><span class="modal-total-val" id="mSumVal"></span></div>
-      <div class="modal-total-row"><span class="modal-total-label">Precio apertura</span><span class="modal-total-val hi" id="mOpenVal"></span></div>
+      <div class="modal-total-row">
+        <span class="modal-total-label">Suma por separado</span>
+        <span class="modal-total-val" id="mSumVal"></span>
+      </div>
+      <div class="modal-total-row">
+        <span class="modal-total-label">Precio apertura</span>
+        <span class="modal-total-val hi" id="mOpenVal"></span>
+      </div>
       <div class="modal-saving" id="mSaving"></div>
     </div>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ── STARS ── */
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-let W, H, stars = [];
-let mouseX=0,mouseY=0,targetMX=0,targetMY=0,scrollY=0;
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-function makeStars(){stars=[];const n=Math.min(280,Math.floor(W*H/4500));for(let i=0;i<n;i++){const l=Math.random();stars.push({x:Math.random()*W,y:Math.random()*H,r:l*1.2+0.2,a:Math.random()*0.7+0.2,sp:Math.random()*0.04+0.015,ph:Math.random()*Math.PI*2,warm:Math.random()>0.65,layer:l,flash:Math.random()>0.88});}}
-let t=0;
-function draw(){ctx.clearRect(0,0,W,H);mouseX+=(targetMX-mouseX)*0.05;mouseY+=(targetMY-mouseY)*0.05;for(const s of stars){const tw=0.25+0.75*Math.sin(t*s.sp+s.ph);let alpha=s.a*tw;if(s.flash){const fp=Math.pow(Math.max(0,Math.sin(t*s.sp*0.5+s.ph)),8);alpha=Math.min(1,alpha+fp*0.9);}const str=s.layer*28;const px=s.x+(mouseX/W-0.5)*str;const py=s.y+(mouseY/H-0.5)*str+(scrollY*s.layer*0.08);const r=s.r*(0.85+0.15*tw);if(s.flash&&alpha>0.85){ctx.shadowBlur=6;ctx.shadowColor='rgba(240,200,120,0.8)';}else{ctx.shadowBlur=0;}ctx.fillStyle=s.warm?`rgba(240,180,120,${alpha*0.8})`:`rgba(245,228,215,${alpha})`;ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fill();}ctx.shadowBlur=0;t++;requestAnimationFrame(draw);}
-document.addEventListener('mousemove',e=>{targetMX=e.clientX;targetMY=e.clientY;});
-window.addEventListener('scroll',()=>{scrollY=window.scrollY;},{passive:true});
-resize();makeStars();window.addEventListener('resize',()=>{resize();makeStars();});requestAnimationFrame(draw);
-
-/* ── AVATAR SLIDE ON CLICK ── */
-(function(){
-  const wrap=document.getElementById('hoviAvatar');
-  let onRight=false;
-  wrap.style.transition='left 0.45s cubic-bezier(.16,1,.3,1)';
-  const isMobile=window.innerWidth<=500;
-  const initMargin=isMobile?12:Math.max(40,wrap.parentElement.offsetWidth*0.06);
-  wrap.style.left=initMargin+'px';
-  wrap.style.right='auto';
-  window.danceAvatar=function(){
-    const heroW=wrap.parentElement.offsetWidth;
-    const avatarW=wrap.offsetWidth;
-    const isMob=window.innerWidth<=500;
-    const margin=isMob?12:Math.max(40,heroW*0.06);
-    const maxX=heroW-avatarW-margin;
-    wrap.classList.add('dancing');
-    setTimeout(function(){wrap.classList.remove('dancing');},580);
-    onRight=!onRight;
-    wrap.style.left=onRight?maxX+'px':margin+'px';
-  };
-})();
-
-/* ── GITHUB IMAGE SYSTEM ── */
-const BASE='.';
-
-function tryImg(url){return new Promise(resolve=>{const i=new Image();i.onload=()=>resolve(true);i.onerror=()=>resolve(false);i.src=url;});}
-async function loadFolder(path,max){const imgs=[];for(let n=0;n<max;n++){const url=BASE+'/'+path+'/'+n+'.png';if(await tryImg(url))imgs.push(url);else break;}return imgs;}
-
-document.getElementById('img-hovi-avatar').src=BASE+'/Imagenes/perfil/0.png';
-document.getElementById('img-live2d-sticker').src=BASE+'/Imagenes/sticker/0.png';
-
-/* ── AVATAR GALLERY ── */
-let currentAvatar=null,galleryIdx=0,galleryImgs=[];
-async function loadAvatarTab(name){
-  currentAvatar=name;galleryIdx=0;
-  document.querySelectorAll('.avatar-tab').forEach(t=>t.classList.toggle('active',t.dataset.name===name));
-  document.getElementById('cmp2d').src=BASE+'/Imagenes/avatares/'+name+'/2D/0.png';
-  document.getElementById('cmp3d').src=BASE+'/Imagenes/avatares/'+name+'/3D/0.png';
-  document.getElementById('cmpName2d').textContent=name;
-  document.getElementById('cmpName3d').textContent=name;
-  const wrap=document.getElementById('galleryWrap');
-  const track=document.getElementById('galleryTrack');
-  const dots=document.getElementById('galleryDots');
-  track.innerHTML='';dots.innerHTML='';
-  galleryImgs=await loadFolder('Imagenes/avatares/'+name+'/3D/Carrusel',50);
-  if(galleryImgs.length===0){wrap.style.display='none';dots.innerHTML='<p class="no-gallery">No hay fotos adicionales aún.</p>';return;}
-  wrap.style.display='';
-  galleryImgs.forEach((url,i)=>{
-    const slide=document.createElement('div');slide.className='gallery-slide';
-    const img=document.createElement('img');img.src=url;img.alt=name+' foto '+i;
-    slide.appendChild(img);track.appendChild(slide);
-    const dot=document.createElement('button');dot.className='gallery-dot'+(i===0?' active':'');dot.onclick=()=>goGallery(i);dots.appendChild(dot);
-  });
-  updateGallery();
-}
-function updateGallery(){document.getElementById('galleryTrack').style.transform='translateX(-'+(galleryIdx*100)+'%)';document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===galleryIdx));}
-window.galleryMove=function(dir){if(galleryImgs.length===0)return;galleryIdx=(galleryIdx+dir+galleryImgs.length)%galleryImgs.length;updateGallery();};
-window.goGallery=function(i){galleryIdx=i;updateGallery();};
-
-/* ── MAP CAROUSEL ── */
-let mapIdx=0,mapSlides=[];
-function updateMap(){document.getElementById('mapTrack').style.transform='translateX(-'+(mapIdx*100)+'%)';document.querySelectorAll('#mapDots .map-dot').forEach((d,i)=>d.classList.toggle('active',i===mapIdx));}
-window.moveMap=function(dir){if(mapSlides.length===0)return;mapIdx=(mapIdx+dir+mapSlides.length)%mapSlides.length;updateMap();};
-window.goMap=function(i){mapIdx=i;updateMap();};
-
-/* ── INIT ── */
-async function initPortfolio(){
-  let config;
-  try{const r=await fetch(BASE+'/config.json');config=await r.json();}
-  catch(e){config={avatares:['Nekkowa','Albedo'],mapas:['Evangelion','StellarGummies','WIP']};}
-  const tabsEl=document.getElementById('avatarTabs');
-  config.avatares.forEach((name,i)=>{
-    const btn=document.createElement('button');btn.className='avatar-tab'+(i===0?' active':'');
-    btn.textContent=name;btn.dataset.name=name;btn.onclick=()=>loadAvatarTab(name);tabsEl.appendChild(btn);
-  });
-  if(config.avatares.length>0)loadAvatarTab(config.avatares[0]);
-  const track=document.getElementById('mapTrack');const dots=document.getElementById('mapDots');
-  for(const folder of config.mapas){
-    const isWip=folder.toLowerCase()==='wip';
-    const imgs=await loadFolder('Imagenes/Mapas/'+folder,50);
-    imgs.forEach(url=>{
-      const slide=document.createElement('div');slide.className='map-slide';
-      if(isWip){const b=document.createElement('span');b.className='wip-badge';b.textContent='✦ WIP';slide.appendChild(b);}
-      const img=document.createElement('img');img.src=url;img.alt=folder;slide.appendChild(img);
-      const lbl=document.createElement('div');lbl.className='map-slide-label';lbl.textContent='World VRChat — '+folder;slide.appendChild(lbl);
-      track.appendChild(slide);
-      const dot=document.createElement('button');dot.className='map-dot'+(mapSlides.length===0?' active':'');
-      dot.onclick=(function(idx){return function(){goMap(idx);};})(mapSlides.length);
-      dots.appendChild(dot);mapSlides.push(url);
-    });
-  }
-}
-initPortfolio();
-
-/* ── PRICE TOGGLE ── */
-window.togglePrices=function(){
-  const sec=document.getElementById('precios');const btn=document.getElementById('priceBtn');const txt=document.getElementById('btnTxt');
-  const open=sec.classList.toggle('open');btn.classList.toggle('open',open);
-  txt.textContent=open?'Ocultar desglose de precios':'Ver desglose de servicios individuales';
-  if(open)setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),120);
-};
-
-/* ── MODAL DATA ── */
-const pkgData={
-  starter:{icon:'✨',name:'Starter',tag:'"Tu primera identidad 3D" — Avatar VRChat',rows:[{name:'Personalización de avatar <strong>Starter</strong>',price:'$110'},{name:'<strong>1 outfit simple</strong> — retexturizado',price:'$55'},{name:'Subida y setup en <strong>VRChat</strong>',price:'incl.'}],sum:'~$165',open:'$150',saving:'~$15'},
-  debut:{icon:'⭐',name:'Debut',tag:'"Marca tu debut con estilo" — Avatar VRChat',rows:[{name:'Personalización de avatar <strong>Estándar</strong>',price:'$220'},{name:'<strong>1 outfit complejo</strong>',price:'$170'},{name:'<strong>1 asset</strong> nivel medio',price:'$80'},{name:'<strong>PhysBones</strong> para el asset',price:'$30'},{name:'Menú básico de expresiones',price:'$35'},{name:'Subida y setup en <strong>VRChat</strong>',price:'incl.'}],sum:'~$535',open:'$500',saving:'~$35'},
-  signature:{icon:'🌟',name:'Signature',tag:'"Branding completo, impacto real" — Avatar VRChat',rows:[{name:'Personalización de avatar <strong>Avanzado</strong> + blendshapes',price:'$320'},{name:'<strong>2 outfits complejos</strong>',price:'$310'},{name:'<strong>2 assets</strong> con PhysBones',price:'$130'},{name:'Menú con <strong>iconos ilustrados</strong>',price:'$70'},{name:'<strong>Conversión VRM</strong>',price:'$55'},{name:'<strong>Icono 2D chibi</strong>',price:'$65'},{name:'Subida y setup en <strong>VRChat</strong>',price:'incl.'}],sum:'~$950',open:'$750',saving:'~$200'},
-  prestige:{icon:'👑',name:'Prestige',tag:'"El estándar de los grandes creadores" — Avatar VRChat',rows:[{name:'Personalización de avatar <strong>Avanzado</strong>',price:'$360'},{name:'<strong>3 outfits personalizados</strong>',price:'$520'},{name:'<strong>3 assets</strong> con PhysBones',price:'$260'},{name:'Menú con <strong>iconos ilustrados</strong>',price:'$100'},{name:'<strong>Conversión VRM</strong>',price:'$60'},{name:'<strong>Icono 2D chibi</strong>',price:'$65'},{name:'Acceso prioritario + revisión extra',price:'incl.'},{name:'Subida y setup en <strong>VRChat</strong>',price:'incl.'}],sum:'~$1,365',open:'$1,350',saving:'~$15'},
-  hideout:{icon:'🏠',name:'Hideout',tag:'"Tu espacio personal" — World VRChat',rows:[{name:'World <strong>simple</strong>',price:'$200'},{name:'<strong>5 props decorativos</strong>',price:'$110'},{name:'Espejo + pedestal de avatar',price:'$45'},{name:'Iluminación + subida a VRChat',price:'incl.'}],sum:'~$355',open:'$280',saving:'~$75'},
-  studio:{icon:'🎙️',name:'Studio',tag:'"Tu escenario de transmisión" — World VRChat',rows:[{name:'World <strong>medio</strong> — 2 zonas',price:'$380'},{name:'<strong>10 props personalizados</strong>',price:'$180'},{name:'<strong>Video player</strong> integrado',price:'$40'},{name:'Audio básico + espejo + pedestales',price:'$40'},{name:'Iluminación avanzada + subida',price:'incl.'}],sum:'~$640',open:'$480',saving:'~$160'},
-  landmark:{icon:'🏰',name:'Landmark',tag:'"Un mundo que te define" — World VRChat',rows:[{name:'World <strong>complejo</strong> — 3+ zonas',price:'$700–$1,100'},{name:'Assets propios + Udon interactivo',price:'$150–$250'},{name:'Video player + AudioLink',price:'$80'},{name:'Compatibilidad Quest',price:'$70'},{name:'Iluminación bakeada + slot prioritario',price:'$55'},{name:'Subida a VRChat',price:'incl.'}],sum:'~$1,055–$1,555',open:'$750–$1,100',saving:'~$300–$455'}
-};
-
-window.openModal=function(pkg){
-  const d=pkgData[pkg];if(!d)return;
-  document.getElementById('mIcon').textContent=d.icon;
-  document.getElementById('mName').textContent=d.name;
-  document.getElementById('mTag').textContent=d.tag;
-  document.getElementById('mSumVal').textContent=d.sum+' USD';
-  document.getElementById('mOpenVal').textContent=d.open+' USD';
-  const saving=pkg==='landmark'?`Ahorro estimado de <span>${d.saving} USD</span> vs contratar por separado`:`Ahorro de <span>${d.saving} USD</span> vs contratar por separado`;
-  document.getElementById('mSaving').innerHTML=saving;
-  document.getElementById('mRows').innerHTML=d.rows.map(r=>`<div class="modal-row"><span class="modal-row-name">${r.name}</span><span class="modal-row-price">${r.price}</span></div>`).join('');
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
-};
-window.closeModalBtn=function(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';};
-window.closeModal=function(e){if(e.target===document.getElementById('modalOverlay'))
+</body>
+</html>
