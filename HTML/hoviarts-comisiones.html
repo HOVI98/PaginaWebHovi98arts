@@ -835,7 +835,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
       <a href="https://instagram.com/hovi98vr/"       target="_blank" class="soc-btn instagram"> <i class="fab fa-instagram"></i>  Instagram  </a>
       <a href="https://twitch.tv/hovi98vr"            target="_blank" class="soc-btn twitch">     <i class="fab fa-twitch"></i>     Twitch     </a>
       <a href="https://www.artstation.com/hoviarts"   target="_blank" class="soc-btn artstation"><i class="fab fa-artstation"></i> ArtStation </a>
-      <a href="mailto:hovi98arts@gmail.com"                           class="soc-btn email">      <i class="fas fa-envelope"></i>   Correo     </a>
+      <a href="/cdn-cgi/l/email-protection#8be3e4fde2b2b3eaf9fff8cbece6eae2e7a5e8e4e6" class="soc-btn email">      <i class="fas fa-envelope"></i>   Correo     </a>
     </div>
     <p class="contact-note">Respuesta en <strong>24–48 horas</strong>. Incluye tu referencia 2D y el paquete de interés para agilizar la cotización.</p>
   </div>
@@ -863,7 +863,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── STARS ── */
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
@@ -900,7 +900,7 @@ resize();makeStars();window.addEventListener('resize',()=>{resize();makeStars();
 })();
 
 /* ── GITHUB IMAGE SYSTEM ── */
-const BASE='https://raw.githubusercontent.com/HOVI98/PaginaWebHovi98arts/main/HTML';
+const BASE='.';
 
 function tryImg(url){return new Promise(resolve=>{const i=new Image();i.onload=()=>resolve(true);i.onerror=()=>resolve(false);i.src=url;});}
 async function loadFolder(path,max){const imgs=[];for(let n=0;n<max;n++){const url=BASE+'/'+path+'/'+n+'.png';if(await tryImg(url))imgs.push(url);else break;}return imgs;}
@@ -1004,8 +1004,4 @@ window.openModal=function(pkg){
   document.body.style.overflow='hidden';
 };
 window.closeModalBtn=function(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';};
-window.closeModal=function(e){if(e.target===document.getElementById('modalOverlay'))closeModalBtn();};
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalBtn();});
-</script>
-</body>
-</html>
+window.closeModal=function(e){if(e.target===document.getElementById('modalOverlay'))
