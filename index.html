@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HoviArts — Comisiones 3D</title>
+<link rel="icon" type="image/png" href="https://i.imgur.com/mtEeT5E.png">
+<link rel="apple-touch-icon" href="https://i.imgur.com/mtEeT5E.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -114,7 +116,26 @@ body::after {
 .inc li strong { color:var(--cream); font-weight:600; font-style:normal; display:inline; }
 
 /* price — always visible */
-.card-price { border-top:1px solid rgba(201,144,26,0.12); padding-top:12px; display:flex; align-items:baseline; justify-content:space-between; gap:6px; }
+.card-price { border-top:1px solid rgba(201,144,26,0.12); padding-top:12px; display:flex; align-items:center; justify-content:space-between; gap:6px; }
+.card-add-btn {
+  background: rgba(201,144,26,0.1);
+  border: 1px solid rgba(201,144,26,0.4);
+  color: var(--gold-light);
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s, transform .15s, border-color .15s;
+  font-weight: 700;
+}
+.card-add-btn:hover { background: rgba(201,144,26,0.25); transform: scale(1.1); }
+.card-add-btn.added { background: rgba(200,0,62,0.2); border-color: var(--crimson-glow); color: var(--crimson-glow); }
 .pkg-card.feat .card-price { border-top-color:rgba(200,0,62,0.2); }
 .price-label { font-family:'Cinzel',serif; font-size:clamp(8px,1vw,9px); letter-spacing:1.5px; text-transform:uppercase; color:var(--cream-muted); display:block; margin-bottom:2px; }
 .price-open { font-family:'Cinzel',serif; font-size:clamp(17px,2.8vw,22px); font-weight:700; color:var(--gold-light); line-height:1; }
@@ -779,6 +800,30 @@ body:not(.nav-sticky) .tab-nav-actions {
   font-style: italic;
   margin-top: 6px;
 }
+.cart-screenshot-btn {
+  width: 100%;
+  margin-top: 10px;
+  background: rgba(201,144,26,0.08);
+  border: 1px solid rgba(201,144,26,0.35);
+  border-radius: 8px;
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.cart-screenshot-btn:hover {
+  background: rgba(201,144,26,0.18);
+  border-color: var(--gold);
+}
 
 /* + button in tables */
 .cart-add-td { width: 36px; text-align: center; padding: 0 6px !important; vertical-align: middle; }
@@ -806,6 +851,7 @@ body:not(.nav-sticky) .tab-nav-actions {
 }
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -905,6 +951,7 @@ body:not(.nav-sticky) .tab-nav-actions {
         <div class="card-price">
           <div><div class="price-label" id="starterLabel1">Precio apertura</div><div class="price-open">$130 <small>USD</small></div></div>
           <div class="price-right"><div class="price-label" id="starterLabel2">Precio regular</div><div class="price-reg">$180 USD</div></div>
+          <button class="card-add-btn" onclick="event.stopPropagation(); cardCartAdd(this, 'Starter', '$130', 'Avatares')">+</button>
         </div>
         <div class="card-hint" id="starterHint">✦ Clic para ver desglose completo</div>
       </div>
@@ -926,6 +973,7 @@ body:not(.nav-sticky) .tab-nav-actions {
         <div class="card-price">
           <div><div class="price-label" id="debutLabel1">Precio apertura</div><div class="price-open">$480 <small>USD</small></div></div>
           <div class="price-right"><div class="price-label" id="debutLabel2">Precio regular</div><div class="price-reg">$654 USD</div></div>
+          <button class="card-add-btn" onclick="event.stopPropagation(); cardCartAdd(this, 'Debut', '$480', 'Avatares')">+</button>
         </div>
         <div class="card-hint" id="debutHint">✦ Clic para ver desglose completo</div>
       </div>
@@ -948,6 +996,7 @@ body:not(.nav-sticky) .tab-nav-actions {
         <div class="card-price">
           <div><div class="price-label" id="signatureLabel1">Precio apertura</div><div class="price-open">$880 <small>USD</small></div></div>
           <div class="price-right"><div class="price-label" id="signatureLabel2">Precio regular</div><div class="price-reg">$1,394 USD</div></div>
+          <button class="card-add-btn" onclick="event.stopPropagation(); cardCartAdd(this, 'Signature', '$880', 'Avatares')">+</button>
         </div>
         <div class="card-hint" id="signatureHint">✦ Clic para ver desglose completo</div>
       </div>
@@ -970,6 +1019,7 @@ body:not(.nav-sticky) .tab-nav-actions {
         <div class="card-price">
           <div><div class="price-label" id="prestigeLabel1">Precio apertura</div><div class="price-open">$1,280 <small>USD</small></div></div>
           <div class="price-right"><div class="price-label" id="prestigeLabel2">Precio regular</div><div class="price-reg">$1,813 USD</div></div>
+          <button class="card-add-btn" onclick="event.stopPropagation(); cardCartAdd(this, 'Prestige', '$1,280', 'Avatares')">+</button>
         </div>
         <div class="card-hint" id="prestigeHint">✦ Clic para ver desglose completo</div>
       </div>
@@ -1161,6 +1211,7 @@ body:not(.nav-sticky) .tab-nav-actions {
         <div class="card-price">
           <div><div class="price-label" id="hideoutLabel1">Precio apertura</div><div class="price-open">$310 <small>USD</small></div></div>
           <div class="price-right"><div class="price-label" id="hideoutLabel2">Precio regular</div><div class="price-reg">$472 USD</div></div>
+          <button class="card-add-btn" onclick="event.stopPropagation(); cardCartAdd(this, 'Hideout', '$310', 'Mundos')">+</button>
         </div>
         <div class="card-hint" id="hideoutHint">✦ Clic para ver desglose completo</div>
       </div>
@@ -1183,6 +1234,7 @@ body:not(.nav-sticky) .tab-nav-actions {
         <div class="card-price">
           <div><div class="price-label" id="studioLabel1">Precio apertura</div><div class="price-open">$540 <small>USD</small></div></div>
           <div class="price-right"><div class="price-label" id="studioLabel2">Precio regular</div><div class="price-reg">$787 USD</div></div>
+          <button class="card-add-btn" onclick="event.stopPropagation(); cardCartAdd(this, 'Studio', '$540', 'Mundos')">+</button>
         </div>
         <div class="card-hint" id="studioHint">✦ Clic para ver desglose completo</div>
       </div>
@@ -1205,6 +1257,7 @@ body:not(.nav-sticky) .tab-nav-actions {
         <div class="card-price">
           <div><div class="price-label" id="landmarkLabel1">Precio apertura</div><div class="price-open" style="font-size:clamp(16px,3vw,22px)">$820–$1,150 <small>USD</small></div></div>
           <div class="price-right"><div class="price-label" id="landmarkLabel2">Precio regular</div><div class="price-reg">$1,217–$1,732 USD</div></div>
+          <button class="card-add-btn" onclick="event.stopPropagation(); cardCartAdd(this, 'Landmark', '$820–$1,150', 'Mundos')">+</button>
         </div>
         <div class="card-hint" id="landmarkHint">✦ Clic para ver desglose completo</div>
       </div>
@@ -1919,7 +1972,7 @@ function renderCart() {
     return '<div class="cart-item">' +
       '<div class="cart-item-name">' + item.name + '<strong>' + item.section + '</strong></div>' +
       '<span class="cart-item-price">' + priceLabel + '</span>' +
-      '<button class="cart-remove" onclick="cartRemove(' + idx + ')">✕</button>' +
+      '<button class="cart-remove" onclick="cartRemove(' + idx + ', event)">✕</button>' +
       '</div>';
   }).join('');
 
@@ -1935,8 +1988,21 @@ function renderCart() {
         '<span class="cart-total-range">' + totalStr + ' <small style="font-size:.45em;color:var(--cream-muted)">USD</small></span>' +
       '</div>' +
       '<p class="cart-total-note">* Los precios son rangos orientativos. El valor final se cotiza según tu proyecto.</p>' +
+      '<button class="cart-screenshot-btn" onclick="screenshotCart(event)">📸 Guardar cotización</button>' +
     '</div>';
 }
+
+window.cardCartAdd = function(btn, name, price, section) {
+  cart.push({ name: name, price: price, section: section });
+  btn.classList.add('added');
+  btn.textContent = '✓';
+  setTimeout(function() { btn.textContent = '+'; btn.classList.remove('added'); }, 1200);
+  var badge = document.getElementById('cartBadge');
+  badge.classList.remove('bump');
+  void badge.offsetWidth;
+  badge.classList.add('bump');
+  renderCart();
+};
 
 window.cartAdd = function(btn) {
   var name = btn.getAttribute('data-name');
@@ -1953,7 +2019,8 @@ window.cartAdd = function(btn) {
   renderCart();
 };
 
-window.cartRemove = function(idx) {
+window.cartRemove = function(idx, e) {
+  if (e) e.stopPropagation();
   cart.splice(idx, 1);
   renderCart();
 };
@@ -1961,6 +2028,42 @@ window.cartRemove = function(idx) {
 window.cartClear = function() {
   cart = [];
   renderCart();
+};
+
+window.screenshotCart = function(e) {
+  e.stopPropagation();
+  var panel     = document.getElementById('cartPanel');
+  var itemsWrap = panel.querySelector('.cart-items');
+  var btn       = panel.querySelector('.cart-screenshot-btn');
+  btn.textContent = '⏳ Guardando...';
+  btn.disabled = true;
+
+  // Temporarily remove scroll so full list is visible
+  var prevMax    = itemsWrap.style.maxHeight;
+  var prevOverflow = itemsWrap.style.overflowY;
+  itemsWrap.style.maxHeight = 'none';
+  itemsWrap.style.overflowY = 'visible';
+
+  html2canvas(panel, {
+    backgroundColor: '#0e060c',
+    scale: 2,
+    useCORS: true,
+    logging: false
+  }).then(function(canvas) {
+    // Restore scroll
+    itemsWrap.style.maxHeight  = prevMax;
+    itemsWrap.style.overflowY  = prevOverflow;
+
+    var link = document.createElement('a');
+    link.download = 'cotizacion-hoviarts.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    btn.textContent = '✓ Descargado';
+    setTimeout(function() {
+      btn.textContent = '📸 Guardar cotización';
+      btn.disabled = false;
+    }, 2000);
+  });
 };
 
 window.toggleCart = function() {
