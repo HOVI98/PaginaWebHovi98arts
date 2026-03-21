@@ -79,7 +79,7 @@ body::after {
 .pkg-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr)); gap:clamp(10px,1.8vw,16px); align-items:stretch; }
 
 /* CARD */
-.pkg-card { background:var(--card-bg); border:1px solid rgba(201,144,26,0.15); border-radius:16px; padding:clamp(16px,2.5vw,22px) clamp(14px,2vw,20px); position:relative; overflow:hidden; display:flex; flex-direction:column; cursor:pointer; transition:transform .3s ease,box-shadow .3s ease; }
+.pkg-card { background:var(--card-bg); border:1px solid rgba(201,144,26,0.15); border-radius:16px; padding:clamp(16px,2.5vw,22px) clamp(14px,2vw,20px); position:relative; display:flex; flex-direction:column; cursor:pointer; transition:transform .3s ease,box-shadow .3s ease; }
 .pkg-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
 .pkg-card:hover { transform:translateY(-4px); box-shadow:0 16px 44px rgba(200,0,62,0.12),0 0 0 1px rgba(201,144,26,0.25); }
 .pkg-card.feat { background:linear-gradient(160deg,rgba(200,0,62,0.08),rgba(201,144,26,0.04)); border-color:rgba(200,0,62,0.3); }
@@ -89,7 +89,7 @@ body::after {
 .pkg-card.crown::before { background:linear-gradient(90deg,transparent,var(--gold-light),transparent); }
 .pkg-card.crown:hover { box-shadow:0 16px 44px rgba(201,144,26,0.18),0 0 0 1px rgba(201,144,26,0.5); }
 
-.tier-badge { position:absolute; top:12px;right:12px; font-family:'Cinzel',serif; font-size:clamp(7px,1vw,9px); font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:3px 9px; border-radius:999px; white-space:nowrap; }
+.tier-badge { position:absolute; top:-12px;right:12px; font-family:'Cinzel',serif; font-size:clamp(7px,1vw,9px); font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:3px 9px; border-radius:999px; white-space:nowrap; }
 .tier-badge.red { background:linear-gradient(135deg,var(--crimson),#E8003A); color:white; }
 .tier-badge.gld { background:linear-gradient(135deg,var(--gold),#E09010); color:#1a0800; }
 
@@ -246,7 +246,31 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 .map-arrow.right { right:14px; }
 
 
-/* HERO AVATAR — slides continuously */
+/* ── HERO BG CAROUSEL ── */
+.hero-bg-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 0;
+}
+.hero-bg-slide {
+  position: absolute;
+  inset: -40px;          /* extra space so blur doesn't show edges */
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+  filter: blur(22px) brightness(0.38) saturate(1.3);
+  will-change: opacity;
+}
+.hero-bg-slide.active { opacity: 1; }
+
+/* make sure hero content sits above the bg */
+.hero > *:not(.hero-bg-wrap):not(.hero-avatar-wrap) { position: relative; z-index: 1; }
+
+
 .hero { position: relative; overflow: visible; }
 .hero-avatar-wrap {
   position: absolute;
@@ -453,13 +477,23 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(201,144,26,0.2);
   padding: 0;
+  display: flex;
+  align-items: center;
 }
 .tab-nav-inner {
   display: flex;
   justify-content: center;
   gap: 0;
+  flex: 1;
   width: min(1100px, 100%);
   margin: 0 auto;
+}
+.tab-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: clamp(10px, 2vw, 20px);
+  flex-shrink: 0;
 }
 .tab-btn {
   display: flex;
@@ -493,20 +527,80 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 }
 .tab-icon { font-size: clamp(14px, 2vw, 16px); }
 
-/* panels */
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-
-/* ── CARRITO ── */
-.cart-fab {
+/* ── FLOATING ACTIONS (pre-sticky) ── */
+.float-actions {
   position: fixed;
   top: 12px;
   right: clamp(12px, 3vw, 28px);
-  z-index: 200;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity .25s ease, transform .25s ease;
+}
+/* Ocultar cuando la barra ya es sticky */
+.nav-sticky .float-actions {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+/* Ocultar los botones DENTRO de la barra cuando NO es sticky */
+.tab-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: clamp(10px, 2vw, 20px);
+  flex-shrink: 0;
+  transition: opacity .25s ease;
+}
+body:not(.nav-sticky) .tab-nav-actions {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (max-width: 480px) {
+  .float-actions .lang-fab { padding: 7px 10px; gap: 0; }
+  .float-actions .lang-fab-label { display: none; }
+}
+
+
+
+/* panels */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.lang-fab {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,144,26,0.4);
+  border-radius: 999px;
+  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--gold-light);
+  transition: background .2s ease, box-shadow .2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.lang-fab:hover {
+  background: rgba(201,144,26,0.12);
+  box-shadow: 0 0 14px rgba(201,144,26,0.2);
+}
+.lang-fab-icon { font-size: 15px; line-height: 1; }
+@media (max-width: 480px) {
+  .lang-fab { padding: 7px 10px; gap: 0; }
+  .lang-fab-label { display: none; }
+}
+
+/* ── CARRITO ── */
+.cart-fab {
   background: linear-gradient(135deg, var(--gold), var(--crimson-glow));
   border: none;
   border-radius: 999px;
-  padding: 9px 16px 9px 13px;
+  padding: 7px 14px 7px 11px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -541,8 +635,8 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 
 .cart-panel {
   position: fixed;
-  top: 58px;
-  right: clamp(12px, 3vw, 28px);
+  top: 54px;
+  right: clamp(10px, 2vw, 20px);
   z-index: 199;
   width: min(400px, calc(100vw - 24px));
   background: linear-gradient(160deg, #160c14, #0e060c);
@@ -717,11 +811,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 
 <canvas id="stars"></canvas>
 
-<!-- ── CARRITO ── -->
-<button class="cart-fab" id="cartFab" onclick="toggleCart()">
-  <span class="cart-fab-icon">🛒</span>
-  <span class="cart-badge" id="cartBadge">0</span>
-</button>
+
 
 <div class="cart-panel" id="cartPanel">
   <div class="cart-header">
@@ -742,30 +832,43 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 
 <!-- ── HERO ── -->
 <div class="hero">
-  <span class="hero-eyebrow">✦ Comisiones Abiertas ✦</span>
+  <div class="hero-bg-wrap" id="heroBgWrap">
+    <!-- slides injected by JS -->
+  </div>
+  <span class="hero-eyebrow" id="heroEyebrow">✦ Comisiones Abiertas ✦</span>
   <div class="hero-avatar-wrap" id="hoviAvatar" onclick="danceAvatar()" title="¡Dale clic!">
     <div class="hero-avatar-ring"></div>
     <img class="hero-avatar" id="img-hovi-avatar" alt="HOVI98 — Demon King">
   </div>
   <h1 class="hero-title">HoviArts</h1>
-  <p class="hero-subtitle">Diseño de Animación Digital &amp; 3D &nbsp;·&nbsp; Licenciatura en Animación</p>
-  <p class="hero-desc">Doy vida a tus personajes con fidelidad a tu visión. Avatares para VRChat, outfits, assets y mundos 3D con atención al detalle y dedicación para ofrecer la mejor calidad posible.</p>
+  <p class="hero-subtitle" id="heroSubtitle">Diseño de Animación Digital &amp; 3D &nbsp;·&nbsp; Licenciatura en Animación</p>
+  <p class="hero-desc" id="heroDesc">Doy vida a tus personajes con fidelidad a tu visión. Avatares para VRChat, outfits, assets y mundos 3D con atención al detalle y dedicación para ofrecer la mejor calidad posible.</p>
 </div>
 
 <!-- ── TAB NAV ── -->
 <nav class="tab-nav" id="tabNav">
   <div class="tab-nav-inner">
     <button class="tab-btn active" onclick="switchTab('avatares')">
-      <span class="tab-icon">✦</span><span class="tab-label">Avatares</span>
+      <span class="tab-icon">✦</span><span class="tab-label" id="tabAvatares">Avatares</span>
     </button>
     <button class="tab-btn" onclick="switchTab('mundos')">
-      <span class="tab-icon">✦</span><span class="tab-label">Mundos</span>
+      <span class="tab-icon">✦</span><span class="tab-label" id="tabMundos">Mundos</span>
     </button>
     <button class="tab-btn" onclick="switchTab('extras')">
-      <span class="tab-icon">✦</span><span class="tab-label">Extras</span>
+      <span class="tab-icon">✦</span><span class="tab-label" id="tabExtras">Extras</span>
     </button>
     <button class="tab-btn" onclick="switchTab('contacto')">
-      <span class="tab-icon">💬</span><span class="tab-label">Contacto</span>
+      <span class="tab-icon">💬</span><span class="tab-label" id="tabContacto">Contacto</span>
+    </button>
+  </div>
+  <div class="tab-nav-actions">
+    <button class="lang-fab" id="langFab" title="Change language">
+      <span class="lang-fab-icon">🌐</span>
+      <span class="lang-fab-label">EN</span>
+    </button>
+    <button class="cart-fab" id="cartFab" onclick="toggleCart()">
+      <span class="cart-fab-icon">🛒</span>
+      <span class="cart-badge" id="cartBadge">0</span>
     </button>
   </div>
 </nav>
@@ -778,10 +881,10 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <!-- ── AVATARES ── -->
 <div class="section">
   <div class="wrap">
-    <p class="sec-label">✦ Avatares VTuber (VRChat, VRM, etc...)</p>
-    <h2 class="sec-title">Paquetes de Avatar</h2>
-    <p class="sec-desc">Impacto visual que se nota desde el primer segundo. Elige tu nivel de entrada y crece desde ahí.</p>
-    <div class="slots-notice">🔴 <strong>Slots limitados disponibles</strong> — actualmente con pocos lugares abiertos. Los precios de apertura aplican solo mientras duran.</div>
+    <p class="sec-label" id="avLabel">✦ Avatares VTuber (VRChat, VRM, etc...)</p>
+    <h2 class="sec-title" id="avTitle">Paquetes de Avatar</h2>
+    <p class="sec-desc" id="avDesc">Impacto visual que se nota desde el primer segundo. Elige tu nivel de entrada y crece desde ahí.</p>
+    <div class="slots-notice" id="slotsNotice">🔴 <strong>Slots limitados disponibles</strong> — actualmente con pocos lugares abiertos. Los precios de apertura aplican solo mientras duran.</div>
     <div class="pkg-grid">
 
 
@@ -790,20 +893,20 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           <span class="card-icon">✨</span>
           <div class="card-head-text">
             <h3 class="card-name">Starter</h3>
-            <p class="card-tagline">"Tu primera identidad 3D"</p>
+            <p class="card-tagline" id="starterTagline">"Tu primera identidad 3D"</p>
           </div>
         </div>
         <div class="card-div"></div>
         <ul class="inc">
-          <li><span>Base personalizada — colores y edición ligera</span></li>
-          <li><span><strong>1 outfit simple</strong> retexturizado</span></li>
-          <li><span>Entrega lista en <strong>VRChat</strong></span></li>
+          <li id="starterLi1"><span>Base personalizada — colores y edición ligera</span></li>
+          <li id="starterLi2"><span><strong>1 outfit simple</strong> retexturizado</span></li>
+          <li id="starterLi3"><span>Entrega lista en <strong>VRChat</strong></span></li>
         </ul>
         <div class="card-price">
-          <div><div class="price-label">Precio apertura</div><div class="price-open">$130 <small>USD</small></div></div>
-          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$180 USD</div></div>
+          <div><div class="price-label" id="starterLabel1">Precio apertura</div><div class="price-open">$130 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label" id="starterLabel2">Precio regular</div><div class="price-reg">$180 USD</div></div>
         </div>
-        <div class="card-hint">✦ Clic para ver desglose completo</div>
+        <div class="card-hint" id="starterHint">✦ Clic para ver desglose completo</div>
       </div>
 
       <div class="pkg-card" data-pkg="debut" onclick="openModal('debut')">
@@ -811,64 +914,64 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           <span class="card-icon">⭐</span>
           <div class="card-head-text">
             <h3 class="card-name">Debut</h3>
-            <p class="card-tagline">"Marca tu debut con estilo"</p>
+            <p class="card-tagline" id="debutTagline">"Marca tu debut con estilo"</p>
           </div>
         </div>
         <div class="card-div"></div>
         <ul class="inc">
-          <li><span>Personalización <strong>Estándar</strong> + cabello y elementos corporales</span></li>
-          <li><span><strong>1 outfit complejo</strong> con PhysBones incluidos</span></li>
-          <li><span>Menú de expresiones + entrega en <strong>VRChat</strong></span></li>
+          <li id="debutLi1"><span>Personalización <strong>Estándar</strong> + cabello y elementos corporales</span></li>
+          <li id="debutLi2"><span><strong>1 outfit complejo</strong> con PhysBones incluidos</span></li>
+          <li id="debutLi3"><span>Menú de expresiones + entrega en <strong>VRChat</strong></span></li>
         </ul>
         <div class="card-price">
-          <div><div class="price-label">Precio apertura</div><div class="price-open">$480 <small>USD</small></div></div>
-          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$654 USD</div></div>
+          <div><div class="price-label" id="debutLabel1">Precio apertura</div><div class="price-open">$480 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label" id="debutLabel2">Precio regular</div><div class="price-reg">$654 USD</div></div>
         </div>
-        <div class="card-hint">✦ Clic para ver desglose completo</div>
+        <div class="card-hint" id="debutHint">✦ Clic para ver desglose completo</div>
       </div>
 
       <div class="pkg-card feat" data-pkg="signature" onclick="openModal('signature')">
-        <span class="tier-badge red">✦ Recomendado</span>
+        <span class="tier-badge red" id="signatureBadge">✦ Recomendado</span>
         <div class="card-head">
           <span class="card-icon">🌟</span>
           <div class="card-head-text">
             <h3 class="card-name">Signature</h3>
-            <p class="card-tagline">"Branding completo, impacto real"</p>
+            <p class="card-tagline" id="signatureTagline">"Branding completo, impacto real"</p>
           </div>
         </div>
         <div class="card-div"></div>
         <ul class="inc">
-          <li><span>Personalización <strong>Avanzado</strong> + blendshapes faciales</span></li>
-          <li><span><strong>2 outfits</strong> + 2 assets con PhysBones</span></li>
-          <li><span>Menú ilustrado + VRM + <strong>icono 2D chibi</strong></span></li>
+          <li id="signatureLi1"><span>Personalización <strong>Avanzado</strong> + blendshapes faciales</span></li>
+          <li id="signatureLi2"><span><strong>2 outfits</strong> + 2 assets con PhysBones</span></li>
+          <li id="signatureLi3"><span>Menú ilustrado + VRM + <strong>icono 2D chibi</strong></span></li>
         </ul>
         <div class="card-price">
-          <div><div class="price-label">Precio apertura</div><div class="price-open">$880 <small>USD</small></div></div>
-          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$1,394 USD</div></div>
+          <div><div class="price-label" id="signatureLabel1">Precio apertura</div><div class="price-open">$880 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label" id="signatureLabel2">Precio regular</div><div class="price-reg">$1,394 USD</div></div>
         </div>
-        <div class="card-hint">✦ Clic para ver desglose completo</div>
+        <div class="card-hint" id="signatureHint">✦ Clic para ver desglose completo</div>
       </div>
 
       <div class="pkg-card crown" data-pkg="prestige" onclick="openModal('prestige')">
-        <span class="tier-badge gld">👑 Premium</span>
+        <span class="tier-badge gld" id="prestigeBadge">👑 Premium</span>
         <div class="card-head">
           <span class="card-icon">👑</span>
           <div class="card-head-text">
             <h3 class="card-name">Prestige</h3>
-            <p class="card-tagline">"El estándar de los grandes creadores"</p>
+            <p class="card-tagline" id="prestigeTagline">"El estándar de los grandes creadores"</p>
           </div>
         </div>
         <div class="card-div"></div>
         <ul class="inc">
-          <li><span><strong>3 outfits</strong> + 3 assets complejos con PhysBones</span></li>
-          <li><span>VRM + icono 2D + menú ilustrado + <strong>slot prioritario</strong></span></li>
-          <li><span>Máximo detalle — tu lore, tu branding, tu identidad</span></li>
+          <li id="prestigeLi1"><span><strong>3 outfits</strong> + 3 assets complejos con PhysBones</span></li>
+          <li id="prestigeLi2"><span>VRM + icono 2D + menú ilustrado + <strong>slot prioritario</strong></span></li>
+          <li id="prestigeLi3"><span>Máximo detalle — tu lore, tu branding, tu identidad</span></li>
         </ul>
         <div class="card-price">
-          <div><div class="price-label">Precio apertura</div><div class="price-open">$1,280 <small>USD</small></div></div>
-          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$1,813 USD</div></div>
+          <div><div class="price-label" id="prestigeLabel1">Precio apertura</div><div class="price-open">$1,280 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label" id="prestigeLabel2">Precio regular</div><div class="price-reg">$1,813 USD</div></div>
         </div>
-        <div class="card-hint">✦ Clic para ver desglose completo</div>
+        <div class="card-hint" id="prestigeHint">✦ Clic para ver desglose completo</div>
       </div>
 
     </div>
@@ -885,73 +988,73 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <div id="preciosAv" style="max-height:0; overflow:hidden; transition:max-height .9s cubic-bezier(.16,1,.3,1);">
   <div class="prices-inner">
     <div class="wrap">
-      <div class="price-note">
+      <div class="price-note" id="avPriceNote">
         <strong>✦ Slots de apertura activos — plazas limitadas.</strong> Precios de entrada disponibles mientras queden slots disponibles. Una vez agotados se aplican precios regulares. Todos los precios en <strong>USD</strong>. Reserva tu slot con 50% de anticipo.
       </div>
       <div class="price-block">
-        <p class="price-block-title">Personalización de Avatar — Base existente</p>
+        <p class="price-block-title" id="avTbl1Title">Personalización de Avatar — Base existente</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Nivel</th><th>Incluye</th><th>Regular</th><th>Apertura</th></tr></thead>
+          <thead><tr><th id="avTbl1H1">Nivel</th><th id="avTbl1H2">Incluye</th><th id="avTbl1H3">Regular</th><th id="avTbl1H4">Apertura</th></tr></thead>
           <tbody>
-            <tr><td>Starter</td><td>Retexturizado simple, cambio de colores, ajustes básicos</td><td class="p-reg">$105–$145</td><td class="p-open">$80–$110</td></tr>
-            <tr><td>Básico</td><td>Edición ligera en Blender, texturas custom, cabello básico</td><td class="p-reg">$145–$200</td><td class="p-open">$110–$150</td></tr>
-            <tr><td>Estándar</td><td>Edición completa de cuerpo, texturas custom, cabello, elementos corporales</td><td class="p-reg">$250–$330</td><td class="p-open">$190–$250</td></tr>
-            <tr><td>Avanzado</td><td>Todo lo anterior + blendshapes faciales + elementos complejos</td><td class="p-reg">$360–$470</td><td class="p-open">$280–$370</td></tr>
-            <tr><td>Desde cero</td><td>Modelado completo sin base</td><td class="p-reg">$1,200–$2,500</td><td class="p-open">No aplica</td></tr>
+            <tr><td id="avTbl1R1C1">Starter</td><td id="avTbl1R1C2">Retexturizado simple, cambio de colores, ajustes básicos</td><td class="p-reg">$105–$145</td><td class="p-open">$80–$110</td></tr>
+            <tr><td id="avTbl1R2C1">Básico</td><td id="avTbl1R2C2">Edición ligera en Blender, texturas custom, cabello básico</td><td class="p-reg">$145–$200</td><td class="p-open">$110–$150</td></tr>
+            <tr><td id="avTbl1R3C1">Estándar</td><td id="avTbl1R3C2">Edición completa de cuerpo, texturas custom, cabello, elementos corporales</td><td class="p-reg">$250–$330</td><td class="p-open">$190–$250</td></tr>
+            <tr><td id="avTbl1R4C1">Avanzado</td><td id="avTbl1R4C2">Todo lo anterior + blendshapes faciales + elementos complejos</td><td class="p-reg">$360–$470</td><td class="p-open">$280–$370</td></tr>
+            <tr><td id="avTbl1R5C1">Desde cero</td><td id="avTbl1R5C2">Modelado completo sin base</td><td class="p-reg">$1,200–$2,500</td><td class="p-open">No aplica</td></tr>
           </tbody>
         </table></div>
       </div>
       <div class="price-block">
-        <p class="price-block-title">Ropa y Outfits</p>
+        <p class="price-block-title" id="avTbl2Title">Ropa y Outfits</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Nivel</th><th>Incluye</th><th>Regular</th><th>Apertura</th></tr></thead>
+          <thead><tr><th id="avTbl2H1">Nivel</th><th id="avTbl2H2">Incluye</th><th id="avTbl2H3">Regular</th><th id="avTbl2H4">Apertura</th></tr></thead>
           <tbody>
-            <tr><td>Simple</td><td>Ajustes menores de prenda ya existente, texturas y materiales</td><td class="p-reg">$90–$130</td><td class="p-open">$70–$100</td></tr>
-            <tr><td>Estándar</td><td>Edición de la malla de la prenda para alcanzar la estética deseada + texturas y materiales</td><td class="p-reg">$150–$210</td><td class="p-open">$115–$160</td></tr>
-            <tr><td>Complejo</td><td>Outfit completo, múltiples piezas, edición profunda de forma y materiales</td><td class="p-reg">$215–$280</td><td class="p-open">$165–$215</td></tr>
-            <tr><td>Desde cero / pieza</td><td>Prenda modelada sin base</td><td class="p-reg">+$100–$250</td><td class="p-open">Cotización</td></tr>
+            <tr><td id="avTbl2R1C1">Simple</td><td id="avTbl2R1C2">Ajustes menores de prenda ya existente, texturas y materiales</td><td class="p-reg">$90–$130</td><td class="p-open">$70–$100</td></tr>
+            <tr><td id="avTbl2R2C1">Estándar</td><td id="avTbl2R2C2">Edición de la malla de la prenda para alcanzar la estética deseada + texturas y materiales</td><td class="p-reg">$150–$210</td><td class="p-open">$115–$160</td></tr>
+            <tr><td id="avTbl2R3C1">Complejo</td><td id="avTbl2R3C2">Outfit completo, múltiples piezas, edición profunda de forma y materiales</td><td class="p-reg">$215–$280</td><td class="p-open">$165–$215</td></tr>
+            <tr><td id="avTbl2R4C1">Desde cero / pieza</td><td id="avTbl2R4C2">Prenda modelada sin base</td><td class="p-reg">+$100–$250</td><td class="p-open">Cotización</td></tr>
           </tbody>
         </table></div>
       </div>
       <div class="price-block">
-        <p class="price-block-title">Assets del Personaje</p>
+        <p class="price-block-title" id="avTbl3Title">Assets del Personaje</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Tipo</th><th>Ejemplos</th><th>Regular</th><th>Apertura</th></tr></thead>
+          <thead><tr><th id="avTbl3H1">Tipo</th><th id="avTbl3H2">Ejemplos</th><th id="avTbl3H3">Regular</th><th id="avTbl3H4">Apertura</th></tr></thead>
           <tbody>
-            <tr><td>Simple</td><td>Accesorio pequeño, objeto estático</td><td class="p-reg">$70–$105</td><td class="p-open">$55–$80</td></tr>
-            <tr><td>Medio</td><td>Slime, arma, criatura, accesorio elaborado</td><td class="p-reg">$120–$195</td><td class="p-open">$90–$150</td></tr>
-            <tr><td>Complejo</td><td>Asset con múltiples partes o animación</td><td class="p-reg">$210–$325</td><td class="p-open">$160–$250</td></tr>
+            <tr><td id="avTbl3R1C1">Simple</td><td id="avTbl3R1C2">Accesorio pequeño, objeto estático</td><td class="p-reg">$70–$105</td><td class="p-open">$55–$80</td></tr>
+            <tr><td id="avTbl3R2C1">Medio</td><td id="avTbl3R2C2">Slime, arma, criatura, accesorio elaborado</td><td class="p-reg">$120–$195</td><td class="p-open">$90–$150</td></tr>
+            <tr><td id="avTbl3R3C1">Complejo</td><td id="avTbl3R3C2">Asset con múltiples partes o animación</td><td class="p-reg">$210–$325</td><td class="p-open">$160–$250</td></tr>
           </tbody>
         </table></div>
       </div>
       <div class="price-block">
-        <p class="price-block-title">Huesos y Physics — PhysBones VRChat</p>
+        <p class="price-block-title" id="avTbl4Title">Huesos y Physics — PhysBones VRChat</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Tipo</th><th>Regular</th><th>Apertura</th></tr></thead>
+          <thead><tr><th id="avTbl4H1">Tipo</th><th id="avTbl4H2">Regular</th><th id="avTbl4H3">Apertura</th></tr></thead>
           <tbody>
-            <tr><td>Asset simple — cola, accesorio</td><td class="p-reg">$60–$90</td><td class="p-open">$45–$70</td></tr>
-            <tr><td>Asset complejo — alas, slime, múltiples puntos</td><td class="p-reg">$90–$145</td><td class="p-open">$70–$110</td></tr>
+            <tr><td id="avTbl4R1C1">Asset simple — cola, accesorio</td><td class="p-reg">$60–$90</td><td class="p-open">$45–$70</td></tr>
+            <tr><td id="avTbl4R2C1">Asset complejo — alas, slime, múltiples puntos</td><td class="p-reg">$90–$145</td><td class="p-open">$70–$110</td></tr>
           </tbody>
         </table></div>
       </div>
       <div class="price-block">
-        <p class="price-block-title">Menú de Expresiones e Iconos</p>
+        <p class="price-block-title" id="avTbl5Title">Menú de Expresiones e Iconos</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Tipo</th><th>Regular</th><th>Apertura</th></tr></thead>
+          <thead><tr><th id="avTbl5H1">Tipo</th><th id="avTbl5H2">Regular</th><th id="avTbl5H3">Apertura</th></tr></thead>
           <tbody>
-            <tr><td>Menú básico</td><td class="p-reg">$70–$105</td><td class="p-open">$55–$80</td></tr>
-            <tr><td>Menú completo con iconos ilustrados personalizados</td><td class="p-reg">$125–$195</td><td class="p-open">$95–$150</td></tr>
+            <tr><td id="avTbl5R1C1">Menú básico</td><td class="p-reg">$70–$105</td><td class="p-open">$55–$80</td></tr>
+            <tr><td id="avTbl5R2C1">Menú completo con iconos ilustrados personalizados</td><td class="p-reg">$125–$195</td><td class="p-open">$95–$150</td></tr>
           </tbody>
         </table></div>
       </div>
       <div class="price-block">
-        <p class="price-block-title">Conversión de Formato</p>
+        <p class="price-block-title" id="avTbl6Title">Conversión de Formato</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Formato</th><th>Costo adicional</th></tr></thead>
+          <thead><tr><th id="avTbl6H1">Formato</th><th id="avTbl6H2">Costo adicional</th></tr></thead>
           <tbody>
-            <tr><td>VRM — VSeeFace, Resonite, etc.</td><td class="p-open">+$65–$100</td></tr>
-            <tr><td>FBX / archivos sueltos</td><td class="p-open">+$30–$50</td></tr>
-            <tr><td>Otros formatos</td><td class="p-open">Cotización</td></tr>
+            <tr><td id="avTbl6R1C1">VRM — VSeeFace, Resonite, etc.</td><td class="p-open">+$65–$100</td></tr>
+            <tr><td id="avTbl6R2C1">FBX / archivos sueltos</td><td class="p-open">+$30–$50</td></tr>
+            <tr><td id="avTbl6R3C1">Otros formatos</td><td class="p-open">Cotización</td></tr>
           </tbody>
         </table></div>
       </div>
@@ -964,9 +1067,9 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <!-- PORTFOLIO AVATARES -->
 <div class="portfolio-section">
   <div class="wrap">
-    <p class="sec-label">✦ Portfolio — Avatares</p>
-    <h2 class="sec-title">Referencia 2D &rarr; Resultado 3D</h2>
-    <p class="sec-desc">Cada avatar es fiel a su dise&ntilde;o original. Desliza para ver los proyectos.</p>
+    <p class="sec-label" id="avPortLabel">✦ Portfolio — Avatares</p>
+    <h2 class="sec-title" id="avPortTitle">Referencia 2D &rarr; Resultado 3D</h2>
+    <p class="sec-desc" id="avPortDesc">Cada avatar es fiel a su dise&ntilde;o original. Desliza para ver los proyectos.</p>
     <div class="avatar-carousel" id="avatarCarousel">
       <div class="avatar-track" id="avatarTrack">
         <div class="avatar-slide">
@@ -974,12 +1077,12 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
             <div class="pair-card">
               <span class="badge-2d">2D Ref</span>
               <img id="img-nekkowa2d" alt="Nekkowa referencia 2D">
-              <div class="pair-label"><em>Nekkowa</em> &mdash; Referencia 2D</div>
+              <div class="pair-label"><em>Nekkowa</em> &mdash; <span id="avPairLabel1">Referencia 2D</span></div>
             </div>
             <div class="pair-card">
               <span class="badge-3d">3D VRChat</span>
               <img id="img-nekkowa3d" alt="Nekkowa 3D VRChat">
-              <div class="pair-label"><em>Nekkowa</em> &mdash; Resultado 3D</div>
+              <div class="pair-label"><em>Nekkowa</em> &mdash; <span id="avPairLabel2">Resultado 3D</span></div>
             </div>
           </div>
         </div>
@@ -988,12 +1091,12 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
             <div class="pair-card">
               <span class="badge-2d">2D Ref</span>
               <img id="img-dark2d" alt="Albedo Personalizada referencia 2D">
-              <div class="pair-label"><em>Albedo Personalizada</em> &mdash; Referencia 2D</div>
+              <div class="pair-label"><em>Albedo Personalizada</em> &mdash; <span id="avPairLabel3">Referencia 2D</span></div>
             </div>
             <div class="pair-card">
               <span class="badge-3d">3D VRChat</span>
               <img id="img-dark3d" alt="Albedo Personalizada 3D VRChat">
-              <div class="pair-label"><em>Albedo Personalizada</em> &mdash; Resultado 3D</div>
+              <div class="pair-label"><em>Albedo Personalizada</em> &mdash; <span id="avPairLabel4">Resultado 3D</span></div>
             </div>
           </div>
         </div>
@@ -1019,8 +1122,8 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
       <i class="fas fa-star" style="display:none"></i>
       <span style="font-size:clamp(16px,2.5vw,22px); line-height:1;">✦</span>
       <span>
-        Crea tu personaje Live 2D
-        <span class="live2d-sublabel">by Nekkowa — Comisiones abiertas</span>
+        <span id="nekkowa-main">Crea tu personaje Live 2D</span>
+        <span class="live2d-sublabel" id="nekkowa-sub">by Nekkowa — Comisiones abiertas</span>
       </span>
     </a>
   </div>
@@ -1036,9 +1139,9 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <!-- ── MAPAS ── -->
 <div class="section">
   <div class="wrap">
-    <p class="sec-label">✦ Mapas VR</p>
-    <h2 class="sec-title">Paquetes de Mapa</h2>
-    <p class="sec-desc">Desde una sala íntima hasta un reino completamente original. Diseñado desde cero o con assets según tu visión.</p>
+    <p class="sec-label" id="munLabel">✦ Mapas VR</p>
+    <h2 class="sec-title" id="munTitle">Paquetes de Mapa</h2>
+    <p class="sec-desc" id="munDesc">Desde una sala íntima hasta un reino completamente original. Diseñado desde cero o con assets según tu visión.</p>
     <div class="pkg-grid">
 
       <div class="pkg-card" data-pkg="hideout" onclick="openModal('hideout')">
@@ -1046,64 +1149,64 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
           <span class="card-icon">🏠</span>
           <div class="card-head-text">
             <h3 class="card-name">Hideout</h3>
-            <p class="card-tagline">"Tu espacio personal"</p>
+            <p class="card-tagline" id="hideoutTagline">"Tu espacio personal"</p>
           </div>
         </div>
         <div class="card-div"></div>
         <ul class="inc">
-          <li><span>Mundo tipo <strong>sala o habitación</strong> con tu estilo</span></li>
-          <li><span>5 props + espejo + pedestal de avatar</span></li>
-          <li><span>Iluminación personalizada + subida incluida</span></li>
+          <li id="hideoutLi1"><span>Mundo tipo <strong>sala o habitación</strong> con tu estilo</span></li>
+          <li id="hideoutLi2"><span>5 props + espejo + pedestal de avatar</span></li>
+          <li id="hideoutLi3"><span>Iluminación personalizada + subida incluida</span></li>
         </ul>
         <div class="card-price">
-          <div><div class="price-label">Precio apertura</div><div class="price-open">$310 <small>USD</small></div></div>
-          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$472 USD</div></div>
+          <div><div class="price-label" id="hideoutLabel1">Precio apertura</div><div class="price-open">$310 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label" id="hideoutLabel2">Precio regular</div><div class="price-reg">$472 USD</div></div>
         </div>
-        <div class="card-hint">✦ Clic para ver desglose completo</div>
+        <div class="card-hint" id="hideoutHint">✦ Clic para ver desglose completo</div>
       </div>
 
       <div class="pkg-card feat" data-pkg="studio" onclick="openModal('studio')">
-        <span class="tier-badge red">✦ Recomendado</span>
+        <span class="tier-badge red" id="studioBadge">✦ Recomendado</span>
         <div class="card-head">
           <span class="card-icon">🎙️</span>
           <div class="card-head-text">
             <h3 class="card-name">Studio</h3>
-            <p class="card-tagline">"Tu escenario de transmisión"</p>
+            <p class="card-tagline" id="studioTagline">"Tu escenario de transmisión"</p>
           </div>
         </div>
         <div class="card-div"></div>
         <ul class="inc">
-          <li><span><strong>2 zonas</strong> — escenario + lounge para tu comunidad</span></li>
-          <li><span><strong>Video player</strong> + audio + 10 props personalizados</span></li>
-          <li><span>Iluminación mood + subida incluida</span></li>
+          <li id="studioLi1"><span><strong>2 zonas</strong> — escenario + lounge para tu comunidad</span></li>
+          <li id="studioLi2"><span><strong>Video player</strong> + audio + 10 props personalizados</span></li>
+          <li id="studioLi3"><span>Iluminación mood + subida incluida</span></li>
         </ul>
         <div class="card-price">
-          <div><div class="price-label">Precio apertura</div><div class="price-open">$540 <small>USD</small></div></div>
-          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$787 USD</div></div>
+          <div><div class="price-label" id="studioLabel1">Precio apertura</div><div class="price-open">$540 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label" id="studioLabel2">Precio regular</div><div class="price-reg">$787 USD</div></div>
         </div>
-        <div class="card-hint">✦ Clic para ver desglose completo</div>
+        <div class="card-hint" id="studioHint">✦ Clic para ver desglose completo</div>
       </div>
 
       <div class="pkg-card crown" data-pkg="landmark" onclick="openModal('landmark')">
-        <span class="tier-badge gld">👑 Premium</span>
+        <span class="tier-badge gld" id="landmarkBadge">👑 Premium</span>
         <div class="card-head">
           <span class="card-icon">🏰</span>
           <div class="card-head-text">
             <h3 class="card-name">Landmark</h3>
-            <p class="card-tagline">"Un mundo que te define"</p>
+            <p class="card-tagline" id="landmarkTagline">"Un mundo que te define"</p>
           </div>
         </div>
         <div class="card-div"></div>
         <ul class="inc">
-          <li><span><strong>3+ zonas</strong> con assets propios + Udon interactivo</span></li>
-          <li><span>Video player + AudioLink + <strong>Quest compatible</strong></span></li>
-          <li><span>Iluminación bakeada + slot prioritario</span></li>
+          <li id="landmarkLi1"><span><strong>3+ zonas</strong> con assets propios + Udon interactivo</span></li>
+          <li id="landmarkLi2"><span>Video player + AudioLink + <strong>Quest compatible</strong></span></li>
+          <li id="landmarkLi3"><span>Iluminación bakeada + slot prioritario</span></li>
         </ul>
         <div class="card-price">
-          <div><div class="price-label">Precio apertura</div><div class="price-open" style="font-size:clamp(16px,3vw,22px)">$820–$1,150 <small>USD</small></div></div>
-          <div class="price-right"><div class="price-label">Precio regular</div><div class="price-reg">$1,217–$1,732 USD</div></div>
+          <div><div class="price-label" id="landmarkLabel1">Precio apertura</div><div class="price-open" style="font-size:clamp(16px,3vw,22px)">$820–$1,150 <small>USD</small></div></div>
+          <div class="price-right"><div class="price-label" id="landmarkLabel2">Precio regular</div><div class="price-reg">$1,217–$1,732 USD</div></div>
         </div>
-        <div class="card-hint">✦ Clic para ver desglose completo</div>
+        <div class="card-hint" id="landmarkHint">✦ Clic para ver desglose completo</div>
       </div>
 
     </div>
@@ -1120,31 +1223,31 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <div id="preciosMun" style="max-height:0; overflow:hidden; transition:max-height .9s cubic-bezier(.16,1,.3,1);">
   <div class="prices-inner">
     <div class="wrap">
-      <div class="price-note">
+      <div class="price-note" id="munPriceNote">
         <strong>✦ Slots de apertura activos — plazas limitadas.</strong> Precios de entrada disponibles mientras queden slots disponibles. Una vez agotados se aplican precios regulares. Todos los precios en <strong>USD</strong>. Reserva tu slot con 50% de anticipo.
       </div>
       <div class="price-block">
-        <p class="price-block-title">Mundos VRChat — Servicios Individuales</p>
+        <p class="price-block-title" id="munTbl1Title">Mundos VRChat — Servicios Individuales</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Nivel</th><th>Incluye</th><th>Regular</th><th>Apertura</th></tr></thead>
+          <thead><tr><th id="munTbl1H1">Nivel</th><th id="munTbl1H2">Incluye</th><th id="munTbl1H3">Regular</th><th id="munTbl1H4">Apertura</th></tr></thead>
           <tbody>
-            <tr><td>Simple</td><td>Espacio único, assets existentes, iluminación básica</td><td class="p-reg">$270–$420</td><td class="p-open">$230–$340</td></tr>
-            <tr><td>Medio</td><td>Varios espacios, assets mixtos, interactividad básica</td><td class="p-reg">$385–$650</td><td class="p-open">$295–$495</td></tr>
-            <tr><td>Complejo</td><td>Mundo grande, assets propios, sistemas Udon — según complejidad</td><td class="p-reg">$700–$1,500</td><td class="p-open">$530–$1,110</td></tr>
+            <tr><td id="munTbl1R1C1">Simple</td><td id="munTbl1R1C2">Espacio único, assets existentes, iluminación básica</td><td class="p-reg">$270–$420</td><td class="p-open">$230–$340</td></tr>
+            <tr><td id="munTbl1R2C1">Medio</td><td id="munTbl1R2C2">Varios espacios, assets mixtos, interactividad básica</td><td class="p-reg">$385–$650</td><td class="p-open">$295–$495</td></tr>
+            <tr><td id="munTbl1R3C1">Complejo</td><td id="munTbl1R3C2">Mundo grande, assets propios, sistemas Udon — según complejidad</td><td class="p-reg">$700–$1,500</td><td class="p-open">$530–$1,110</td></tr>
           </tbody>
         </table></div>
       </div>
       <div class="price-block">
-        <p class="price-block-title">Add-ons para Mundos</p>
+        <p class="price-block-title" id="munTbl2Title">Add-ons para Mundos</p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Elemento</th><th>Regular</th><th>Apertura</th></tr></thead>
+          <thead><tr><th id="munTbl2H1">Elemento</th><th id="munTbl2H2">Regular</th><th id="munTbl2H3">Apertura</th></tr></thead>
           <tbody>
-            <tr><td>Compatibilidad Quest</td><td class="p-reg">+$105–$210</td><td class="p-open">+$80–$160</td></tr>
-            <tr><td>Props / assets personalizados (por pieza)</td><td class="p-reg">$55–$175</td><td class="p-open">$40–$135</td></tr>
-            <tr><td>Video player (Pro TV)</td><td class="p-reg">+$60–$100</td><td class="p-open">+$45–$75</td></tr>
-            <tr><td>Sistema de audio / AudioLink</td><td class="p-reg">+$60–$120</td><td class="p-open">+$45–$90</td></tr>
-            <tr><td>Espejos, portales, pedestales</td><td class="p-reg">+$35–$65 c/u</td><td class="p-open">+$25–$50 c/u</td></tr>
-            <tr><td>Iluminación bakeada</td><td class="p-reg">+$80–$150</td><td class="p-open">+$60–$115</td></tr>
+            <tr><td id="munTbl2R1C1">Compatibilidad Quest</td><td class="p-reg">+$105–$210</td><td class="p-open">+$80–$160</td></tr>
+            <tr><td id="munTbl2R2C1">Props / assets personalizados (por pieza)</td><td class="p-reg">$55–$175</td><td class="p-open">$40–$135</td></tr>
+            <tr><td id="munTbl2R3C1">Video player (Pro TV)</td><td class="p-reg">+$60–$100</td><td class="p-open">+$45–$75</td></tr>
+            <tr><td id="munTbl2R4C1">Sistema de audio / AudioLink</td><td class="p-reg">+$60–$120</td><td class="p-open">+$45–$90</td></tr>
+            <tr><td id="munTbl2R5C1">Espejos, portales, pedestales</td><td class="p-reg">+$35–$65 c/u</td><td class="p-open">+$25–$50 c/u</td></tr>
+            <tr><td id="munTbl2R6C1">Iluminación bakeada</td><td class="p-reg">+$80–$150</td><td class="p-open">+$60–$115</td></tr>
           </tbody>
         </table></div>
       </div>
@@ -1157,68 +1260,68 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <!-- PORTFOLIO MUNDOS -->
 <div class="portfolio-section">
   <div class="wrap">
-    <p class="sec-label">✦ Portfolio &mdash; Mundos</p>
-    <h2 class="sec-title">Mapas y Mundos VRChat</h2>
-    <p class="sec-desc">Ambientes &uacute;nicos construidos para cada creador.</p>
+    <p class="sec-label" id="munPortLabel">✦ Portfolio &mdash; Mundos</p>
+    <h2 class="sec-title" id="munPortTitle">Mapas y Mundos VRChat</h2>
+    <p class="sec-desc" id="munPortDesc">Ambientes &uacute;nicos construidos para cada creador.</p>
 
     <div class="map-carousel" id="mapCarousel">
       <div class="map-track" id="mapTrack">
         <div class="map-slide">
           <img id="img-map1" alt="Mundo VRChat">
-          <div class="map-slide-label">Mundo VRChat &mdash; Estilo Evangelion</div>
+          <div class="map-slide-label" id="mapLabel1">Mundo VRChat &mdash; Estilo Evangelion</div>
         </div>
 
         <div class="map-slide">
           <img id="img-map2" alt="Mundo VRChat — Evangelion playa">
-          <div class="map-slide-label">Mundo VRChat &mdash; Playa Evangelion</div>
+          <div class="map-slide-label" id="mapLabel2">Mundo VRChat &mdash; Playa Evangelion</div>
         </div>
         <div class="map-slide">
           <img id="img-map3" alt="Mundo VRChat — Candy World">
-          <div class="map-slide-label">Mundo VRChat &mdash; Candy World (vista general)</div>
+          <div class="map-slide-label" id="mapLabel3">Mundo VRChat &mdash; Candy World (vista general)</div>
         </div>
         <div class="map-slide">
           <img id="img-map4" alt="Mundo VRChat — Candy World detalle">
-          <div class="map-slide-label">Mundo VRChat &mdash; Candy World (detalle)</div>
+          <div class="map-slide-label" id="mapLabel4">Mundo VRChat &mdash; Candy World (detalle)</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip1" alt="Trevor Henderson Map — Pasillo interior">
-          <div class="map-slide-label">Trevor Henderson Map — Pasillo interior</div>
+          <div class="map-slide-label" id="mapLabel5">Trevor Henderson Map — Pasillo interior</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip2" alt="Trevor Henderson Map — Zona oscura">
-          <div class="map-slide-label">Trevor Henderson Map — Zona oscura</div>
+          <div class="map-slide-label" id="mapLabel6">Trevor Henderson Map — Zona oscura</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip3" alt="Trevor Henderson Map — Edificio exterior">
-          <div class="map-slide-label">Trevor Henderson Map — Edificio exterior</div>
+          <div class="map-slide-label" id="mapLabel7">Trevor Henderson Map — Edificio exterior</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip4" alt="Trevor Henderson Map — Azotea noche">
-          <div class="map-slide-label">Trevor Henderson Map — Azotea noche</div>
+          <div class="map-slide-label" id="mapLabel8">Trevor Henderson Map — Azotea noche</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip5" alt="Trevor Henderson Map — Corredor graffiti">
-          <div class="map-slide-label">Trevor Henderson Map — Corredor graffiti</div>
+          <div class="map-slide-label" id="mapLabel9">Trevor Henderson Map — Corredor graffiti</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip6" alt="Trevor Henderson Map — Interior oscuro">
-          <div class="map-slide-label">Trevor Henderson Map — Interior oscuro</div>
+          <div class="map-slide-label" id="mapLabel10">Trevor Henderson Map — Interior oscuro</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip7" alt="Trevor Henderson Map — Vista Unity (en desarrollo)">
-          <div class="map-slide-label">Trevor Henderson Map — Vista Unity (en desarrollo)</div>
+          <div class="map-slide-label" id="mapLabel11">Trevor Henderson Map — Vista Unity (en desarrollo)</div>
         </div>
         <div class="map-slide">
           <span class="wip-badge">✦ WIP</span>
           <img id="img-wip8" alt="Casa Nekkowa — Bosque (en desarrollo)">
-          <div class="map-slide-label">Casa Nekkowa — Bosque (en desarrollo)</div>
+          <div class="map-slide-label" id="mapLabel12">Casa Nekkowa — Bosque (en desarrollo)</div>
         </div>
       </div>
       <button class="map-arrow left" onclick="moveMap(-1)">&#8249;</button>
@@ -1258,7 +1361,7 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <div id="preciosExt" style="max-height:0; overflow:hidden; transition:max-height .9s cubic-bezier(.16,1,.3,1);">
   <div class="prices-inner">
     <div class="wrap">
-      <div class="price-note">
+      <div class="price-note" id="extNote">
         Aquí irán próximamente servicios adicionales no relacionados con avatares ni mundos. <strong>Próximamente.</strong>
       </div>
     </div>
@@ -1268,29 +1371,29 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <!-- ── CONDITIONS ── -->
 <div class="section">
   <div class="wrap">
-    <p class="sec-label">✦ Términos</p>
-    <h2 class="sec-title">Condiciones Generales</h2>
-    <p class="sec-desc">Todo lo que necesitas saber antes de comisionar.</p>
+    <p class="sec-label" id="condLabel">✦ Términos</p>
+    <h2 class="sec-title" id="condTitle">Condiciones Generales</h2>
+    <p class="sec-desc" id="condDesc">Todo lo que necesitas saber antes de comisionar.</p>
     <div class="cond-grid">
       <div class="cond-card">
         <span class="cond-icon">💳</span>
-        <h3 class="cond-title">Pago</h3>
-        <p class="cond-text"><strong>50% de anticipo</strong> antes de comenzar, 50% restante antes de la entrega final. El anticipo no es reembolsable si el cliente cancela tras la primera etapa aprobada.</p>
+        <h3 class="cond-title" id="condCard1Title">Pago</h3>
+        <p class="cond-text" id="condCard1Text"><strong>50% de anticipo</strong> antes de comenzar, 50% restante antes de la entrega final. El anticipo no es reembolsable si el cliente cancela tras la primera etapa aprobada.</p>
       </div>
       <div class="cond-card">
         <span class="cond-icon">✏️</span>
-        <h3 class="cond-title">Revisiones</h3>
-        <p class="cond-text">Hasta <strong>3 revisiones por etapa</strong> de aprobación. Elementos ya aprobados no se rehacen sin costo adicional. Cambios fuera de lo acordado se cotizan aparte.</p>
+        <h3 class="cond-title" id="condCard2Title">Revisiones</h3>
+        <p class="cond-text" id="condCard2Text">Hasta <strong>3 revisiones por etapa</strong> de aprobación. Elementos ya aprobados no se rehacen sin costo adicional. Cambios fuera de lo acordado se cotizan aparte.</p>
       </div>
       <div class="cond-card">
         <span class="cond-icon">📋</span>
-        <h3 class="cond-title">Requisitos</h3>
-        <p class="cond-text">Para avatares, el cliente llega con <strong>referencia clara</strong> — diseño 2D o descripción detallada. Para mapas se incluye etapa de concepto inicial. Toda comunicación por escrito.</p>
+        <h3 class="cond-title" id="condCard3Title">Requisitos</h3>
+        <p class="cond-text" id="condCard3Text">Para avatares, el cliente llega con <strong>referencia clara</strong> — diseño 2D o descripción detallada. Para mapas se incluye etapa de concepto inicial. Toda comunicación por escrito.</p>
       </div>
       <div class="cond-card">
         <span class="cond-icon">🛡️</span>
-        <h3 class="cond-title">Derecho de Admisión</h3>
-        <p class="cond-text">Me reservo el derecho de <strong>aceptar o rechazar cualquier proyecto</strong> que vaya en contra de mis principios o valores, sin necesidad de dar una justificación detallada. Esto aplica antes de iniciar cualquier acuerdo formal.</p>
+        <h3 class="cond-title" id="condCard4Title">Derecho de Admisión</h3>
+        <p class="cond-text" id="condCard4Text">Me reservo el derecho de <strong>aceptar o rechazar cualquier proyecto</strong> que vaya en contra de mis principios o valores, sin necesidad de dar una justificación detallada. Esto aplica antes de iniciar cualquier acuerdo formal.</p>
       </div>
     </div>
   </div>
@@ -1306,22 +1409,22 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 <!-- ── CONTACT ── -->
 <div class="contact-section">
   <div class="wrap">
-    <p class="sec-label">✦ Contacto</p>
-    <h2 class="sec-title">¿Listo para comenzar?</h2>
-    <p class="sec-desc">Escríbeme con tu idea y referencia. Con gusto te cotizo y resolvemos cualquier duda antes de comenzar.</p>
+    <p class="sec-label" id="contactLabel">✦ Contacto</p>
+    <h2 class="sec-title" id="contactTitle">¿Listo para comenzar?</h2>
+    <p class="sec-desc" id="contactDesc">Escríbeme con tu idea y referencia. Con gusto te cotizo y resolvemos cualquier duda antes de comenzar.</p>
     <div class="socials">
       <a href="https://discord.gg/WWbvFyw"            target="_blank" class="soc-btn discord">    <i class="fab fa-discord"></i>    Discord    </a>
       <a href="https://instagram.com/hovi98vr/"       target="_blank" class="soc-btn instagram"> <i class="fab fa-instagram"></i>  Instagram  </a>
       <a href="https://twitch.tv/hovi98vr"            target="_blank" class="soc-btn twitch">     <i class="fab fa-twitch"></i>     Twitch     </a>
       <a href="https://www.artstation.com/hoviarts"   target="_blank" class="soc-btn artstation"><i class="fab fa-artstation"></i> ArtStation </a>
     </div>
-    <p class="contact-note">Respuesta en <strong>24–48 horas</strong>. Incluye tu referencia 2D y el paquete de interés para agilizar la cotización.</p>
+    <p class="contact-note" id="contactNote">Respuesta en <strong>24–48 horas</strong>. Incluye tu referencia 2D y el paquete de interés para agilizar la cotización.</p>
   </div>
 </div>
 
 </div><!-- /tab-panel#tab-contacto -->
 
-<footer>HoviArts &nbsp;·&nbsp; Diseño de Animación Digital & 3D &nbsp;·&nbsp; Todos los derechos reservados</footer>
+<footer id="footerText">HoviArts &nbsp;·&nbsp; Diseño de Animación Digital & 3D &nbsp;·&nbsp; Todos los derechos reservados</footer>
 
 </div>
 
@@ -1431,10 +1534,17 @@ window.toggleSection = function(sectionId, btnId, txtId, chevId) {
   sec.style.maxHeight = isOpen ? '0' : '6000px';
   btn.classList.toggle('open', !isOpen);
   chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+  const isEN = window.currentLang === 'en';
   const labels = {
-    btnTxtAv:  ['Ver servicios individuales — Avatares',  'Ocultar servicios — Avatares'],
-    btnTxtMun: ['Ver servicios individuales — Mundos',    'Ocultar servicios — Mundos'],
-    btnTxtExt: ['Ver servicios individuales — Extras',    'Ocultar servicios — Extras'],
+    btnTxtAv:  isEN
+      ? ['View individual services — Avatars',  'Hide services — Avatars']
+      : ['Ver servicios individuales — Avatares',  'Ocultar servicios — Avatares'],
+    btnTxtMun: isEN
+      ? ['View individual services — Worlds',  'Hide services — Worlds']
+      : ['Ver servicios individuales — Mundos', 'Ocultar servicios — Mundos'],
+    btnTxtExt: isEN
+      ? ['View individual services — Extras', 'Hide services — Extras']
+      : ['Ver servicios individuales — Extras', 'Ocultar servicios — Extras'],
   };
   if (labels[txtId]) txt.textContent = labels[txtId][isOpen ? 0 : 1];
   if (!isOpen) setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
@@ -1480,6 +1590,42 @@ window.toggleSection = function(sectionId, btnId, txtId, chevId) {
   
   document.getElementById('img-live2d-sticker').src = 'https://i.imgur.com/kTosz5s.png';
 
+  /* ── HERO BG CAROUSEL ── */
+  (function() {
+    var urls = [
+      'https://cdna.artstation.com/p/assets/images/images/097/343/732/large/hoviarts-0.jpg?1773885895',  // nekkowa 3D
+      'https://cdna.artstation.com/p/assets/images/images/097/344/014/large/hoviarts-0.jpg?1773886823',  // dark 3D
+      'https://cdna.artstation.com/p/assets/images/images/092/610/662/large/hoviarts-vrchat-2024-06-18-04-54-10-260-1920x1080.webp?1760121785', // map1
+      'https://cdna.artstation.com/p/assets/images/images/092/610/658/large/hoviarts-vrchat-2024-06-18-04-54-53-711-1920x1080.webp?1760121782', // map2
+      'https://cdnb.artstation.com/p/assets/images/images/097/343/477/large/hoviarts-0.jpg?1773885178',  // map3
+      'https://cdna.artstation.com/p/assets/images/images/097/343/480/large/hoviarts-1.jpg?1773885182',  // map4
+      'https://cdnb.artstation.com/p/assets/images/images/097/343/491/large/hoviarts-2.jpg?1773885208',  // wip1
+      'https://cdna.artstation.com/p/assets/images/images/097/343/494/large/hoviarts-3.jpg?1773885212',  // wip2
+      'https://cdnb.artstation.com/p/assets/images/images/097/343/489/large/hoviarts-1.jpg?1773885204',  // wip3
+      'https://cdna.artstation.com/p/assets/images/images/097/343/496/large/hoviarts-5.jpg?1773885218',  // wip4
+      'https://cdnb.artstation.com/p/assets/images/images/097/343/501/large/hoviarts-8.jpg?1773885225',  // wip5
+      'https://cdnb.artstation.com/p/assets/images/images/097/343/495/large/hoviarts-4.jpg?1773885215',  // wip6
+    ];
+
+    var wrap = document.getElementById('heroBgWrap');
+    var slides = urls.map(function(url) {
+      var div = document.createElement('div');
+      div.className = 'hero-bg-slide';
+      div.style.backgroundImage = 'url(' + url + ')';
+      wrap.appendChild(div);
+      return div;
+    });
+
+    var current = 0;
+    slides[0].classList.add('active');
+
+    setInterval(function() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 4500);
+  })();
+
 /* ── AVATAR SLIDE ON CLICK ── */
   (function() {
     const wrap = document.getElementById('hoviAvatar');
@@ -1516,7 +1662,15 @@ const pkgData = {
       { name: '<strong>1 outfit simple</strong> — ajustes y materiales', price: '$85' },
       { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
     ],
-    sum: '~$180', open: '$130', saving: '~$50'
+    sum: '~$180', open: '$130', saving: '~$50',
+    en: {
+      tag: '"Your first 3D identity" — VRChat Avatar',
+      rows: [
+        { name: '<strong>Starter</strong> avatar customization — retexturing and basic adjustments', price: '$95' },
+        { name: '<strong>1 simple outfit</strong> — adjustments and materials', price: '$85' },
+        { name: 'Upload and setup in <strong>VRChat</strong>', price: 'incl.' },
+      ]
+    }
   },
   debut: {
     icon: '⭐', name: 'Debut', tag: '"Marca tu debut con estilo" — Avatar VRChat',
@@ -1528,7 +1682,18 @@ const pkgData = {
       { name: 'Menú básico de expresiones', price: '$67' },
       { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
     ],
-    sum: '~$654', open: '$480', saving: '~$174'
+    sum: '~$654', open: '$480', saving: '~$174',
+    en: {
+      tag: '"Make your debut in style" — VRChat Avatar',
+      rows: [
+        { name: '<strong>Standard</strong> avatar customization', price: '$220' },
+        { name: '<strong>1 complex outfit</strong> — deep shape and material editing', price: '$190' },
+        { name: '<strong>1 character asset</strong> mid-level', price: '$120' },
+        { name: '<strong>PhysBones</strong> for the asset', price: '$57' },
+        { name: 'Basic expressions menu', price: '$67' },
+        { name: 'Upload and setup in <strong>VRChat</strong>', price: 'incl.' },
+      ]
+    }
   },
   signature: {
     icon: '🌟', name: 'Signature', tag: '"Branding completo, impacto real" — Avatar VRChat',
@@ -1542,7 +1707,20 @@ const pkgData = {
       { name: '<strong>1 icono 2D chibi</strong> de tu avatar — para redes y perfil', price: '$65' },
       { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
     ],
-    sum: '~$1,394', open: '$880', saving: '~$514'
+    sum: '~$1,394', open: '$880', saving: '~$514',
+    en: {
+      tag: '"Complete branding, real impact" — VRChat Avatar',
+      rows: [
+        { name: '<strong>Advanced</strong> avatar customization + facial blendshapes', price: '$325' },
+        { name: '<strong>2 complex outfits</strong> — casual and event/stream', price: '$380' },
+        { name: '<strong>2 character assets</strong>', price: '$240' },
+        { name: '<strong>PhysBones</strong> for both assets', price: '$180' },
+        { name: 'Full menu with <strong>illustrated icons</strong>', price: '$122' },
+        { name: '<strong>VRM conversion</strong> — VSeeFace compatible', price: '$82' },
+        { name: '<strong>1 2D chibi icon</strong> of your avatar — for socials and profile', price: '$65' },
+        { name: 'Upload and setup in <strong>VRChat</strong>', price: 'incl.' },
+      ]
+    }
   },
   prestige: {
     icon: '👑', name: 'Prestige', tag: '"El estándar de los grandes creadores" — Avatar VRChat',
@@ -1557,7 +1735,21 @@ const pkgData = {
       { name: '<strong>Acceso prioritario</strong> + revisión extra', price: 'incl.' },
       { name: 'Subida y setup en <strong>VRChat</strong>', price: 'incl.' },
     ],
-    sum: '~$1,813', open: '$1,280', saving: '~$533'
+    sum: '~$1,813', open: '$1,280', saving: '~$533',
+    en: {
+      tag: '"The standard for top creators" — VRChat Avatar',
+      rows: [
+        { name: '<strong>Advanced</strong> avatar customization — maximum detail', price: '$325' },
+        { name: '<strong>3 custom outfits</strong> — casual, event and themed', price: '$570' },
+        { name: '<strong>3 character assets</strong> — may include one complex', price: '$445' },
+        { name: '<strong>PhysBones</strong> for all 3 assets', price: '$204' },
+        { name: 'Full menu with <strong>illustrated icons</strong>', price: '$122' },
+        { name: '<strong>VRM conversion</strong> — VSeeFace compatible', price: '$82' },
+        { name: '<strong>1 2D chibi icon</strong> of your avatar — for socials and profile', price: '$65' },
+        { name: '<strong>Priority access</strong> + extra revision', price: 'incl.' },
+        { name: 'Upload and setup in <strong>VRChat</strong>', price: 'incl.' },
+      ]
+    }
   },
   hideout: {
     icon: '🏠', name: 'Hideout', tag: '"Tu espacio personal" — Mundo VRChat',
@@ -1568,7 +1760,17 @@ const pkgData = {
       { name: 'Iluminación ambiental personalizada', price: 'incl.' },
       { name: 'Subida a tu cuenta de VRChat', price: 'incl.' },
     ],
-    sum: '~$472', open: '$310', saving: '~$162'
+    sum: '~$472', open: '$310', saving: '~$162',
+    en: {
+      tag: '"Your personal space" — VRChat World',
+      rows: [
+        { name: '<strong>Simple</strong> world — custom room/lounge', price: '$285' },
+        { name: '<strong>5 decorative themed props</strong>', price: '$150' },
+        { name: '<strong>1 mirror</strong> + <strong>1 avatar pedestal</strong>', price: '$37' },
+        { name: 'Custom ambient lighting', price: 'incl.' },
+        { name: 'Upload to your VRChat account', price: 'incl.' },
+      ]
+    }
   },
   studio: {
     icon: '🎙️', name: 'Studio', tag: '"Tu escenario de transmisión" — Mundo VRChat',
@@ -1581,7 +1783,19 @@ const pkgData = {
       { name: 'Iluminación avanzada con mood personalizado', price: 'incl.' },
       { name: 'Subida a tu cuenta de VRChat', price: 'incl.' },
     ],
-    sum: '~$787', open: '$540', saving: '~$247'
+    sum: '~$787', open: '$540', saving: '~$247',
+    en: {
+      tag: '"Your streaming stage" — VRChat World',
+      rows: [
+        { name: '<strong>Medium</strong> world — stage + lounge, 2 zones', price: '$395' },
+        { name: '<strong>10 custom themed props</strong>', price: '$200' },
+        { name: 'Integrated <strong>video player</strong> (Pro TV)', price: '$60' },
+        { name: '<strong>Basic audio</strong> system', price: '$67' },
+        { name: 'Mirror + <strong>2 avatar pedestals</strong>', price: '$65' },
+        { name: 'Advanced lighting with custom mood', price: 'incl.' },
+        { name: 'Upload to your VRChat account', price: 'incl.' },
+      ]
+    }
   },
   landmark: {
     icon: '🏰', name: 'Landmark', tag: '"Un mundo que te define" — Mundo VRChat',
@@ -1595,23 +1809,46 @@ const pkgData = {
       { name: '<strong>Prioridad en lista de espera</strong>', price: 'incl.' },
       { name: 'Subida a tu cuenta de VRChat', price: 'incl.' },
     ],
-    sum: '~$1,217–$1,732', open: '$820–$1,150', saving: '~$397–$582'
+    sum: '~$1,217–$1,732', open: '$820–$1,150', saving: '~$397–$582',
+    en: {
+      tag: '"A world that defines you" — VRChat World',
+      rows: [
+        { name: '<strong>Complex</strong> world — 3+ zones, based on complexity', price: '$700–$1,100' },
+        { name: 'Custom <strong>modeled assets</strong> — based on lore/aesthetic', price: '$175–$290' },
+        { name: 'Full <strong>video player + AudioLink</strong>', price: '$135' },
+        { name: '<strong>Udon</strong> interactivity — doors, buttons, effects', price: 'incl.' },
+        { name: '<strong>Quest compatibility</strong> — additional optimization', price: '$120' },
+        { name: 'High-quality <strong>baked</strong> lighting', price: '$87' },
+        { name: '<strong>Priority waitlist access</strong>', price: 'incl.' },
+        { name: 'Upload to your VRChat account', price: 'incl.' },
+      ]
+    }
   }
 };
 
 window.openModal = function(pkg) {
   const d = pkgData[pkg];
   if (!d) return;
+  const isEN = window.currentLang === 'en';
+  const loc = (isEN && d.en) ? d.en : d;
   document.getElementById('mIcon').textContent = d.icon;
   document.getElementById('mName').textContent = d.name;
-  document.getElementById('mTag').textContent  = d.tag;
+  document.getElementById('mTag').textContent  = loc.tag || d.tag;
   document.getElementById('mSumVal').textContent  = d.sum + ' USD';
   document.getElementById('mOpenVal').textContent = d.open + ' USD';
-  const saving = pkg === 'landmark'
-    ? `Ahorro estimado de <span>${d.saving} USD</span> vs contratar por separado`
-    : `Ahorro de <span>${d.saving} USD</span> vs contratar por separado`;
-  document.getElementById('mSaving').innerHTML = saving;
-  const rows = d.rows.map(r =>
+  document.getElementById('modalSectionTitle').textContent = isEN
+    ? 'Breakdown of included services'
+    : 'Desglose de servicios incluidos';
+  document.getElementById('mSumLabel').textContent  = isEN ? 'Sum separately'  : 'Suma por separado';
+  document.getElementById('mOpenLabel').textContent = isEN ? 'Opening price'   : 'Precio apertura';
+  document.getElementById('mLegend').textContent    = isEN
+    ? '✦ Package prices are calculated using the midpoint of each individual service range, so the total may vary slightly based on the actual complexity of your project. The opening price reflects a discount applied while slots are available. All prices in USD.'
+    : '✦ Los precios del paquete se calculan tomando el punto medio de los rangos de cada servicio individual, por lo que el total puede variar ligeramente según la complejidad real de tu proyecto. El precio de apertura refleja un descuento aplicado mientras haya slots disponibles. Todos los precios en USD.';
+  const savingTpl = isEN
+    ? (pkg === 'landmark' ? 'Estimated savings of <span>{s} USD</span> vs hiring separately' : 'Savings of <span>{s} USD</span> vs hiring separately')
+    : (pkg === 'landmark' ? 'Ahorro estimado de <span>{s} USD</span> vs contratar por separado'  : 'Ahorro de <span>{s} USD</span> vs contratar por separado');
+  document.getElementById('mSaving').innerHTML = savingTpl.replace('{s}', d.saving);
+  const rows = (loc.rows || d.rows).map(r =>
     `<div class="modal-row">
       <span class="modal-row-name">${r.name}</span>
       <span class="modal-row-price">${r.price}</span>
@@ -1780,6 +2017,730 @@ document.addEventListener('keydown', e => {
     document.getElementById('cartPanel').classList.remove('open');
   }
 });
+
+// ── Language toggle
+(function() {
+  var texts = {
+    es: {
+      eyebrow:  '✦ Comisiones Abiertas ✦',
+      subtitle: 'Diseño de Animación Digital\u00a0&\u00a03D\u00a0\u00b7\u00a0Licenciatura en Animación',
+      desc:     'Doy vida a tus personajes con fidelidad a tu visión. Avatares para VRChat, outfits, assets y mundos 3D con atención al detalle y dedicación para ofrecer la mejor calidad posible.',
+      tabs:     { avatares: 'Avatares', mundos: 'Mundos', extras: 'Extras', contacto: 'Contacto' },
+      avLabel:  '✦ Avatares VTuber (VRChat, VRM, etc...)',
+      avTitle:  'Paquetes de Avatar',
+      avDesc:   'Impacto visual que se nota desde el primer segundo. Elige tu nivel de entrada y crece desde ahí.',
+      slots:    '🔴 <strong>Slots limitados disponibles</strong> — actualmente con pocos lugares abiertos. Los precios de apertura aplican solo mientras duran.',
+      starterTagline: '"Tu primera identidad 3D"',
+      starterLi1: '<span>Base personalizada — colores y edición ligera</span>',
+      starterLi2: '<span><strong>1 outfit simple</strong> retexturizado</span>',
+      starterLi3: '<span>Entrega lista en <strong>VRChat</strong></span>',
+      starterLabel1: 'Precio apertura', starterLabel2: 'Precio regular',
+      starterHint: '✦ Clic para ver desglose completo',
+      debutTagline: '"Marca tu debut con estilo"',
+      debutLi1: '<span>Personalización <strong>Estándar</strong> + cabello y elementos corporales</span>',
+      debutLi2: '<span><strong>1 outfit complejo</strong> con PhysBones incluidos</span>',
+      debutLi3: '<span>Menú de expresiones + entrega en <strong>VRChat</strong></span>',
+      debutLabel1: 'Precio apertura', debutLabel2: 'Precio regular',
+      debutHint: '✦ Clic para ver desglose completo',
+      signatureBadge: '✦ Recomendado',
+      signatureTagline: '"Branding completo, impacto real"',
+      signatureLi1: '<span>Personalización <strong>Avanzado</strong> + blendshapes faciales</span>',
+      signatureLi2: '<span><strong>2 outfits</strong> + 2 assets con PhysBones</span>',
+      signatureLi3: '<span>Menú ilustrado + VRM + <strong>icono 2D chibi</strong></span>',
+      signatureLabel1: 'Precio apertura', signatureLabel2: 'Precio regular',
+      signatureHint: '✦ Clic para ver desglose completo',
+      prestigeBadge: '👑 Premium',
+      prestigeTagline: '"El estándar de los grandes creadores"',
+      prestigeLi1: '<span><strong>3 outfits</strong> + 3 assets complejos con PhysBones</span>',
+      prestigeLi2: '<span>VRM + icono 2D + menú ilustrado + <strong>slot prioritario</strong></span>',
+      prestigeLi3: '<span>Máximo detalle — tu lore, tu branding, tu identidad</span>',
+      prestigeLabel1: 'Precio apertura', prestigeLabel2: 'Precio regular',
+      prestigeHint: '✦ Clic para ver desglose completo',
+      btnTxtAv: 'Ver servicios individuales — Avatares',
+      avPriceNote: '<strong>✦ Slots de apertura activos — plazas limitadas.</strong> Precios de entrada disponibles mientras queden slots disponibles. Una vez agotados se aplican precios regulares. Todos los precios en <strong>USD</strong>. Reserva tu slot con 50% de anticipo.',
+      avTbl1: {
+        title: 'Personalización de Avatar — Base existente',
+        h1: 'Nivel', h2: 'Incluye', h3: 'Regular', h4: 'Apertura',
+        r1c1: 'Starter',     r1c2: 'Retexturizado simple, cambio de colores, ajustes básicos',
+        r2c1: 'Básico',      r2c2: 'Edición ligera en Blender, texturas custom, cabello básico',
+        r3c1: 'Estándar',    r3c2: 'Edición completa de cuerpo, texturas custom, cabello, elementos corporales',
+        r4c1: 'Avanzado',    r4c2: 'Todo lo anterior + blendshapes faciales + elementos complejos',
+        r5c1: 'Desde cero',  r5c2: 'Modelado completo sin base'
+      },
+      avTbl2: {
+        title: 'Ropa y Outfits',
+        h1: 'Nivel', h2: 'Incluye', h3: 'Regular', h4: 'Apertura',
+        r1c1: 'Simple',           r1c2: 'Ajustes menores de prenda ya existente, texturas y materiales',
+        r2c1: 'Estándar',         r2c2: 'Edición de la malla de la prenda para alcanzar la estética deseada + texturas y materiales',
+        r3c1: 'Complejo',         r3c2: 'Outfit completo, múltiples piezas, edición profunda de forma y materiales',
+        r4c1: 'Desde cero / pieza', r4c2: 'Prenda modelada sin base'
+      },
+      avTbl3: {
+        title: 'Assets del Personaje',
+        h1: 'Tipo', h2: 'Ejemplos', h3: 'Regular', h4: 'Apertura',
+        r1c1: 'Simple',  r1c2: 'Accesorio pequeño, objeto estático',
+        r2c1: 'Medio',   r2c2: 'Slime, arma, criatura, accesorio elaborado',
+        r3c1: 'Complejo', r3c2: 'Asset con múltiples partes o animación'
+      },
+      avTbl4: {
+        title: 'Huesos y Physics — PhysBones VRChat',
+        h1: 'Tipo', h2: 'Regular', h3: 'Apertura',
+        r1c1: 'Asset simple — cola, accesorio',
+        r2c1: 'Asset complejo — alas, slime, múltiples puntos'
+      },
+      avTbl5: {
+        title: 'Menú de Expresiones e Iconos',
+        h1: 'Tipo', h2: 'Regular', h3: 'Apertura',
+        r1c1: 'Menú básico',
+        r2c1: 'Menú completo con iconos ilustrados personalizados'
+      },
+      avTbl6: {
+        title: 'Conversión de Formato',
+        h1: 'Formato', h2: 'Costo adicional',
+        r1c1: 'VRM — VSeeFace, Resonite, etc.',
+        r2c1: 'FBX / archivos sueltos',
+        r3c1: 'Otros formatos'
+      },
+      avPortLabel: '✦ Portfolio — Avatares',
+      avPortTitle: 'Referencia 2D → Resultado 3D',
+      avPortDesc: 'Cada avatar es fiel a su diseño original. Desliza para ver los proyectos.',
+      avPairRef: 'Referencia 2D', avPairResult: 'Resultado 3D',
+      nekkowaMain: 'Crea tu personaje Live 2D',
+      nekkowaSub: 'by Nekkowa — Comisiones abiertas',
+      munLabel: '✦ Mapas VR',
+      munTitle: 'Paquetes de Mapa',
+      munDesc: 'Desde una sala íntima hasta un reino completamente original. Diseñado desde cero o con assets según tu visión.',
+      hideoutTagline: '"Tu espacio personal"',
+      hideoutLi1: '<span>Mundo tipo <strong>sala o habitación</strong> con tu estilo</span>',
+      hideoutLi2: '<span>5 props + espejo + pedestal de avatar</span>',
+      hideoutLi3: '<span>Iluminación personalizada + subida incluida</span>',
+      hideoutLabel1: 'Precio apertura', hideoutLabel2: 'Precio regular',
+      hideoutHint: '✦ Clic para ver desglose completo',
+      studioBadge: '✦ Recomendado',
+      studioTagline: '"Tu escenario de transmisión"',
+      studioLi1: '<span><strong>2 zonas</strong> — escenario + lounge para tu comunidad</span>',
+      studioLi2: '<span><strong>Video player</strong> + audio + 10 props personalizados</span>',
+      studioLi3: '<span>Iluminación mood + subida incluida</span>',
+      studioLabel1: 'Precio apertura', studioLabel2: 'Precio regular',
+      studioHint: '✦ Clic para ver desglose completo',
+      landmarkBadge: '👑 Premium',
+      landmarkTagline: '"Un mundo que te define"',
+      landmarkLi1: '<span><strong>3+ zonas</strong> con assets propios + Udon interactivo</span>',
+      landmarkLi2: '<span>Video player + AudioLink + <strong>Quest compatible</strong></span>',
+      landmarkLi3: '<span>Iluminación bakeada + slot prioritario</span>',
+      landmarkLabel1: 'Precio apertura', landmarkLabel2: 'Precio regular',
+      landmarkHint: '✦ Clic para ver desglose completo',
+      btnTxtMun: 'Ver servicios individuales — Mundos',
+      munPriceNote: '<strong>✦ Slots de apertura activos — plazas limitadas.</strong> Precios de entrada disponibles mientras queden slots disponibles. Una vez agotados se aplican precios regulares. Todos los precios en <strong>USD</strong>. Reserva tu slot con 50% de anticipo.',
+      munTbl1: {
+        title: 'Mundos VRChat — Servicios Individuales',
+        h1: 'Nivel', h2: 'Incluye', h3: 'Regular', h4: 'Apertura',
+        r1c1: 'Simple',   r1c2: 'Espacio único, assets existentes, iluminación básica',
+        r2c1: 'Medio',    r2c2: 'Varios espacios, assets mixtos, interactividad básica',
+        r3c1: 'Complejo', r3c2: 'Mundo grande, assets propios, sistemas Udon — según complejidad'
+      },
+      munTbl2: {
+        title: 'Add-ons para Mundos',
+        h1: 'Elemento', h2: 'Regular', h3: 'Apertura',
+        r1c1: 'Compatibilidad Quest',
+        r2c1: 'Props / assets personalizados (por pieza)',
+        r3c1: 'Video player (Pro TV)',
+        r4c1: 'Sistema de audio / AudioLink',
+        r5c1: 'Espejos, portales, pedestales',
+        r6c1: 'Iluminación bakeada'
+      },
+      munPortLabel: '✦ Portfolio — Mundos',
+      munPortTitle: 'Mapas y Mundos VRChat',
+      munPortDesc: 'Ambientes únicos construidos para cada creador.',
+      mapLabels: [
+        'Mundo VRChat — Estilo Evangelion',
+        'Mundo VRChat — Playa Evangelion',
+        'Mundo VRChat — Candy World (vista general)',
+        'Mundo VRChat — Candy World (detalle)',
+        'Trevor Henderson Map — Pasillo interior',
+        'Trevor Henderson Map — Zona oscura',
+        'Trevor Henderson Map — Edificio exterior',
+        'Trevor Henderson Map — Azotea noche',
+        'Trevor Henderson Map — Corredor graffiti',
+        'Trevor Henderson Map — Interior oscuro',
+        'Trevor Henderson Map — Vista Unity (en desarrollo)',
+        'Casa Nekkowa — Bosque (en desarrollo)'
+      ],
+      btnTxtExt: 'Ver servicios individuales — Extras',
+      extNote: 'Aquí irán próximamente servicios adicionales no relacionados con avatares ni mundos. <strong>Próximamente.</strong>',
+      condLabel: '✦ Términos',
+      condTitle: 'Condiciones Generales',
+      condDesc: 'Todo lo que necesitas saber antes de comisionar.',
+      condCard1Title: 'Pago',
+      condCard1Text: '<strong>50% de anticipo</strong> antes de comenzar, 50% restante antes de la entrega final. El anticipo no es reembolsable si el cliente cancela tras la primera etapa aprobada.',
+      condCard2Title: 'Revisiones',
+      condCard2Text: 'Hasta <strong>3 revisiones por etapa</strong> de aprobación. Elementos ya aprobados no se rehacen sin costo adicional. Cambios fuera de lo acordado se cotizan aparte.',
+      condCard3Title: 'Requisitos',
+      condCard3Text: 'Para avatares, el cliente llega con <strong>referencia clara</strong> — diseño 2D o descripción detallada. Para mapas se incluye etapa de concepto inicial. Toda comunicación por escrito.',
+      condCard4Title: 'Derecho de Admisión',
+      condCard4Text: 'Me reservo el derecho de <strong>aceptar o rechazar cualquier proyecto</strong> que vaya en contra de mis principios o valores, sin necesidad de dar una justificación detallada. Esto aplica antes de iniciar cualquier acuerdo formal.',
+      contactLabel: '✦ Contacto',
+      contactTitle: '¿Listo para comenzar?',
+      contactDesc: 'Escríbeme con tu idea y referencia. Con gusto te cotizo y resolvemos cualquier duda antes de comenzar.',
+      contactNote: 'Respuesta en <strong>24–48 horas</strong>. Incluye tu referencia 2D y el paquete de interés para agilizar la cotización.',
+      footerText: 'HoviArts \u00a0·\u00a0 Diseño de Animación Digital & 3D \u00a0·\u00a0 Todos los derechos reservados'
+    },
+    en: {
+      eyebrow:  '✦ Open Commissions ✦',
+      subtitle: 'Digital & 3D Animation Design\u00a0·\u00a0Bachelor\'s Degree in Animation',
+      desc:     'I bring your characters to life with faithfulness to your vision. Avatars for VRChat, outfits, assets and 3D worlds — crafted with attention to detail and dedication to the highest quality possible.',
+      tabs:     { avatares: 'Avatars', mundos: 'Worlds', extras: 'Extras', contacto: 'Contact' },
+      avLabel:  '✦ VTuber Avatars (VRChat, VRM, etc...)',
+      avTitle:  'Avatar Packages',
+      avDesc:   'Visual impact that stands out from the very first second. Choose your entry level and grow from there.',
+      slots:    '🔴 <strong>Limited slots available</strong> — currently only a few spots open. Opening prices apply only while they last.',
+      starterTagline: '"Your first 3D identity"',
+      starterLi1: '<span>Custom base — colors and light editing</span>',
+      starterLi2: '<span><strong>1 simple outfit</strong> retextured</span>',
+      starterLi3: '<span>Ready delivery in <strong>VRChat</strong></span>',
+      starterLabel1: 'Opening price', starterLabel2: 'Regular price',
+      starterHint: '✦ Click to see full breakdown',
+      debutTagline: '"Make your debut in style"',
+      debutLi1: '<span><strong>Standard</strong> customization + hair and body elements</span>',
+      debutLi2: '<span><strong>1 complex outfit</strong> with PhysBones included</span>',
+      debutLi3: '<span>Expressions menu + delivery in <strong>VRChat</strong></span>',
+      debutLabel1: 'Opening price', debutLabel2: 'Regular price',
+      debutHint: '✦ Click to see full breakdown',
+      signatureBadge: '✦ Recommended',
+      signatureTagline: '"Complete branding, real impact"',
+      signatureLi1: '<span><strong>Advanced</strong> customization + facial blendshapes</span>',
+      signatureLi2: '<span><strong>2 outfits</strong> + 2 assets with PhysBones</span>',
+      signatureLi3: '<span>Illustrated menu + VRM + <strong>2D chibi icon</strong></span>',
+      signatureLabel1: 'Opening price', signatureLabel2: 'Regular price',
+      signatureHint: '✦ Click to see full breakdown',
+      prestigeBadge: '👑 Premium',
+      prestigeTagline: '"The standard for top creators"',
+      prestigeLi1: '<span><strong>3 outfits</strong> + 3 complex assets with PhysBones</span>',
+      prestigeLi2: '<span>VRM + 2D icon + illustrated menu + <strong>priority slot</strong></span>',
+      prestigeLi3: '<span>Maximum detail — your lore, your branding, your identity</span>',
+      prestigeLabel1: 'Opening price', prestigeLabel2: 'Regular price',
+      prestigeHint: '✦ Click to see full breakdown',
+      btnTxtAv: 'View individual services — Avatars',
+      avPriceNote: '<strong>✦ Active opening slots — limited spots.</strong> Entry prices available while slots last. Once sold out, regular prices apply. All prices in <strong>USD</strong>. Reserve your slot with a 50% deposit.',
+      avTbl1: {
+        title: 'Avatar Customization — Existing Base',
+        h1: 'Level', h2: 'Includes', h3: 'Regular', h4: 'Opening',
+        r1c1: 'Starter',      r1c2: 'Simple retexture, color changes, basic adjustments',
+        r2c1: 'Basic',        r2c2: 'Light editing in Blender, custom textures, basic hair',
+        r3c1: 'Standard',     r3c2: 'Full body editing, custom textures, hair, body elements',
+        r4c1: 'Advanced',     r4c2: 'All of the above + facial blendshapes + complex elements',
+        r5c1: 'From scratch', r5c2: 'Full modeling without a base'
+      },
+      avTbl2: {
+        title: 'Clothing & Outfits',
+        h1: 'Level', h2: 'Includes', h3: 'Regular', h4: 'Opening',
+        r1c1: 'Simple',             r1c2: 'Minor adjustments to existing garment, textures and materials',
+        r2c1: 'Standard',           r2c2: 'Mesh editing to achieve the desired look + textures and materials',
+        r3c1: 'Complex',            r3c2: 'Full outfit, multiple pieces, deep shape and material editing',
+        r4c1: 'From scratch / piece', r4c2: 'Garment modeled without a base'
+      },
+      avTbl3: {
+        title: 'Character Assets',
+        h1: 'Type', h2: 'Examples', h3: 'Regular', h4: 'Opening',
+        r1c1: 'Simple',  r1c2: 'Small accessory, static object',
+        r2c1: 'Medium',  r2c2: 'Slime, weapon, creature, elaborate accessory',
+        r3c1: 'Complex', r3c2: 'Asset with multiple parts or animation'
+      },
+      avTbl4: {
+        title: 'Bones & Physics — PhysBones VRChat',
+        h1: 'Type', h2: 'Regular', h3: 'Opening',
+        r1c1: 'Simple asset — tail, accessory',
+        r2c1: 'Complex asset — wings, slime, multiple points'
+      },
+      avTbl5: {
+        title: 'Expressions Menu & Icons',
+        h1: 'Type', h2: 'Regular', h3: 'Opening',
+        r1c1: 'Basic menu',
+        r2c1: 'Full menu with custom illustrated icons'
+      },
+      avTbl6: {
+        title: 'Format Conversion',
+        h1: 'Format', h2: 'Additional cost',
+        r1c1: 'VRM — VSeeFace, Resonite, etc.',
+        r2c1: 'FBX / loose files',
+        r3c1: 'Other formats'
+      },
+      avPortLabel: '✦ Portfolio — Avatars',
+      avPortTitle: '2D Reference → 3D Result',
+      avPortDesc: 'Every avatar stays true to its original design. Swipe to browse projects.',
+      avPairRef: '2D Reference', avPairResult: '3D Result',
+      nekkowaMain: 'Create your Live 2D character',
+      nekkowaSub: 'by Nekkowa — Open commissions',
+      munLabel: '✦ VR Maps',
+      munTitle: 'Map Packages',
+      munDesc: 'From an intimate room to a fully original kingdom. Designed from scratch or with assets according to your vision.',
+      hideoutTagline: '"Your personal space"',
+      hideoutLi1: '<span>World type <strong>room or lounge</strong> with your style</span>',
+      hideoutLi2: '<span>5 props + mirror + avatar pedestal</span>',
+      hideoutLi3: '<span>Custom lighting + upload included</span>',
+      hideoutLabel1: 'Opening price', hideoutLabel2: 'Regular price',
+      hideoutHint: '✦ Click to see full breakdown',
+      studioBadge: '✦ Recommended',
+      studioTagline: '"Your streaming stage"',
+      studioLi1: '<span><strong>2 zones</strong> — stage + lounge for your community</span>',
+      studioLi2: '<span><strong>Video player</strong> + audio + 10 custom props</span>',
+      studioLi3: '<span>Mood lighting + upload included</span>',
+      studioLabel1: 'Opening price', studioLabel2: 'Regular price',
+      studioHint: '✦ Click to see full breakdown',
+      landmarkBadge: '👑 Premium',
+      landmarkTagline: '"A world that defines you"',
+      landmarkLi1: '<span><strong>3+ zones</strong> with custom assets + interactive Udon</span>',
+      landmarkLi2: '<span>Video player + AudioLink + <strong>Quest compatible</strong></span>',
+      landmarkLi3: '<span>Baked lighting + priority slot</span>',
+      landmarkLabel1: 'Opening price', landmarkLabel2: 'Regular price',
+      landmarkHint: '✦ Click to see full breakdown',
+      btnTxtMun: 'View individual services — Worlds',
+      munPriceNote: '<strong>✦ Active opening slots — limited spots.</strong> Entry prices available while slots last. Once sold out, regular prices apply. All prices in <strong>USD</strong>. Reserve your slot with a 50% deposit.',
+      munTbl1: {
+        title: 'VRChat Worlds — Individual Services',
+        h1: 'Level', h2: 'Includes', h3: 'Regular', h4: 'Opening',
+        r1c1: 'Simple',   r1c2: 'Single space, existing assets, basic lighting',
+        r2c1: 'Medium',   r2c2: 'Multiple spaces, mixed assets, basic interactivity',
+        r3c1: 'Complex',  r3c2: 'Large world, custom assets, Udon systems — based on complexity'
+      },
+      munTbl2: {
+        title: 'World Add-ons',
+        h1: 'Element', h2: 'Regular', h3: 'Opening',
+        r1c1: 'Quest compatibility',
+        r2c1: 'Custom props / assets (per piece)',
+        r3c1: 'Video player (Pro TV)',
+        r4c1: 'Audio system / AudioLink',
+        r5c1: 'Mirrors, portals, pedestals',
+        r6c1: 'Baked lighting'
+      },
+      munPortLabel: '✦ Portfolio — Worlds',
+      munPortTitle: 'VRChat Maps & Worlds',
+      munPortDesc: 'Unique environments built for each creator.',
+      mapLabels: [
+        'VRChat World — Evangelion Style',
+        'VRChat World — Evangelion Beach',
+        'VRChat World — Candy World (overview)',
+        'VRChat World — Candy World (detail)',
+        'Trevor Henderson Map — Interior hallway',
+        'Trevor Henderson Map — Dark zone',
+        'Trevor Henderson Map — Exterior building',
+        'Trevor Henderson Map — Rooftop night',
+        'Trevor Henderson Map — Graffiti corridor',
+        'Trevor Henderson Map — Dark interior',
+        'Trevor Henderson Map — Unity view (in development)',
+        'Casa Nekkowa — Forest (in development)'
+      ],
+      btnTxtExt: 'View individual services — Extras',
+      extNote: 'Additional services not related to avatars or worlds will be listed here soon. <strong>Coming soon.</strong>',
+      condLabel: '✦ Terms',
+      condTitle: 'General Conditions',
+      condDesc: 'Everything you need to know before commissioning.',
+      condCard1Title: 'Payment',
+      condCard1Text: '<strong>50% deposit</strong> before starting, remaining 50% before final delivery. The deposit is non-refundable if the client cancels after the first approved stage.',
+      condCard2Title: 'Revisions',
+      condCard2Text: 'Up to <strong>3 revisions per approval stage</strong>. Already approved elements are not redone without additional cost. Changes outside the agreed scope are quoted separately.',
+      condCard3Title: 'Requirements',
+      condCard3Text: 'For avatars, the client must provide a <strong>clear reference</strong> — 2D design or detailed description. For maps, an initial concept stage is included. All communication in writing.',
+      condCard4Title: 'Right of Admission',
+      condCard4Text: 'I reserve the right to <strong>accept or reject any project</strong> that goes against my principles or values, without needing to provide a detailed justification. This applies before starting any formal agreement.',
+      contactLabel: '✦ Contact',
+      contactTitle: 'Ready to get started?',
+      contactDesc: 'Write to me with your idea and reference. I\'ll be happy to quote you and answer any questions before we begin.',
+      contactNote: 'Response within <strong>24–48 hours</strong>. Include your 2D reference and the package you\'re interested in to speed up the quote.',
+      footerText: 'HoviArts \u00a0·\u00a0 Digital & 3D Animation Design \u00a0·\u00a0 All rights reserved'
+    }
+  };
+  var lang = 'es';
+  window.currentLang = 'es';
+
+  function toggleLang() {
+    lang = lang === 'es' ? 'en' : 'es';
+    var t = texts[lang];
+
+    var els = [
+      document.getElementById('heroEyebrow'),
+      document.getElementById('heroSubtitle'),
+      document.getElementById('heroDesc'),
+      document.getElementById('tabAvatares'),
+      document.getElementById('tabMundos'),
+      document.getElementById('tabExtras'),
+      document.getElementById('tabContacto'),
+      document.getElementById('avLabel'),
+      document.getElementById('avTitle'),
+      document.getElementById('avDesc'),
+      document.getElementById('slotsNotice'),
+      document.getElementById('starterTagline'),
+      document.getElementById('starterLi1'),
+      document.getElementById('starterLi2'),
+      document.getElementById('starterLi3'),
+      document.getElementById('starterLabel1'),
+      document.getElementById('starterLabel2'),
+      document.getElementById('starterHint'),
+      document.getElementById('debutTagline'),
+      document.getElementById('debutLi1'),
+      document.getElementById('debutLi2'),
+      document.getElementById('debutLi3'),
+      document.getElementById('debutLabel1'),
+      document.getElementById('debutLabel2'),
+      document.getElementById('debutHint'),
+      document.getElementById('signatureBadge'),
+      document.getElementById('signatureTagline'),
+      document.getElementById('signatureLi1'),
+      document.getElementById('signatureLi2'),
+      document.getElementById('signatureLi3'),
+      document.getElementById('signatureLabel1'),
+      document.getElementById('signatureLabel2'),
+      document.getElementById('signatureHint'),
+      document.getElementById('prestigeBadge'),
+      document.getElementById('prestigeTagline'),
+      document.getElementById('prestigeLi1'),
+      document.getElementById('prestigeLi2'),
+      document.getElementById('prestigeLi3'),
+      document.getElementById('prestigeLabel1'),
+      document.getElementById('prestigeLabel2'),
+      document.getElementById('prestigeHint'),
+      document.getElementById('btnTxtAv'),
+      document.getElementById('avPriceNote'),
+      document.getElementById('avTbl1Title'),
+      document.getElementById('avTbl1H1'), document.getElementById('avTbl1H2'),
+      document.getElementById('avTbl1H3'), document.getElementById('avTbl1H4'),
+      document.getElementById('avTbl1R1C1'), document.getElementById('avTbl1R1C2'),
+      document.getElementById('avTbl1R2C1'), document.getElementById('avTbl1R2C2'),
+      document.getElementById('avTbl1R3C1'), document.getElementById('avTbl1R3C2'),
+      document.getElementById('avTbl1R4C1'), document.getElementById('avTbl1R4C2'),
+      document.getElementById('avTbl1R5C1'), document.getElementById('avTbl1R5C2'),
+      document.getElementById('avTbl2Title'),
+      document.getElementById('avTbl2H1'), document.getElementById('avTbl2H2'),
+      document.getElementById('avTbl2H3'), document.getElementById('avTbl2H4'),
+      document.getElementById('avTbl2R1C1'), document.getElementById('avTbl2R1C2'),
+      document.getElementById('avTbl2R2C1'), document.getElementById('avTbl2R2C2'),
+      document.getElementById('avTbl2R3C1'), document.getElementById('avTbl2R3C2'),
+      document.getElementById('avTbl2R4C1'), document.getElementById('avTbl2R4C2'),
+      document.getElementById('avTbl3Title'),
+      document.getElementById('avTbl3H1'), document.getElementById('avTbl3H2'),
+      document.getElementById('avTbl3H3'), document.getElementById('avTbl3H4'),
+      document.getElementById('avTbl3R1C1'), document.getElementById('avTbl3R1C2'),
+      document.getElementById('avTbl3R2C1'), document.getElementById('avTbl3R2C2'),
+      document.getElementById('avTbl3R3C1'), document.getElementById('avTbl3R3C2'),
+      document.getElementById('avTbl4Title'),
+      document.getElementById('avTbl4H1'), document.getElementById('avTbl4H2'), document.getElementById('avTbl4H3'),
+      document.getElementById('avTbl4R1C1'), document.getElementById('avTbl4R2C1'),
+      document.getElementById('avTbl5Title'),
+      document.getElementById('avTbl5H1'), document.getElementById('avTbl5H2'), document.getElementById('avTbl5H3'),
+      document.getElementById('avTbl5R1C1'), document.getElementById('avTbl5R2C1'),
+      document.getElementById('avTbl6Title'),
+      document.getElementById('avTbl6H1'), document.getElementById('avTbl6H2'),
+      document.getElementById('avTbl6R1C1'), document.getElementById('avTbl6R2C1'), document.getElementById('avTbl6R3C1'),
+      document.getElementById('avPortLabel'),
+      document.getElementById('avPortTitle'),
+      document.getElementById('avPortDesc'),
+      document.getElementById('avPairLabel1'), document.getElementById('avPairLabel2'),
+      document.getElementById('avPairLabel3'), document.getElementById('avPairLabel4'),
+      document.getElementById('nekkowa-main'),
+      document.getElementById('nekkowa-sub'),
+      document.getElementById('munLabel'),
+      document.getElementById('munTitle'),
+      document.getElementById('munDesc'),
+      document.getElementById('hideoutTagline'),
+      document.getElementById('hideoutLi1'),
+      document.getElementById('hideoutLi2'),
+      document.getElementById('hideoutLi3'),
+      document.getElementById('hideoutLabel1'),
+      document.getElementById('hideoutLabel2'),
+      document.getElementById('hideoutHint'),
+      document.getElementById('studioBadge'),
+      document.getElementById('studioTagline'),
+      document.getElementById('studioLi1'),
+      document.getElementById('studioLi2'),
+      document.getElementById('studioLi3'),
+      document.getElementById('studioLabel1'),
+      document.getElementById('studioLabel2'),
+      document.getElementById('studioHint'),
+      document.getElementById('landmarkBadge'),
+      document.getElementById('landmarkTagline'),
+      document.getElementById('landmarkLi1'),
+      document.getElementById('landmarkLi2'),
+      document.getElementById('landmarkLi3'),
+      document.getElementById('landmarkLabel1'),
+      document.getElementById('landmarkLabel2'),
+      document.getElementById('landmarkHint'),
+      document.getElementById('btnTxtMun'),
+      document.getElementById('munPriceNote'),
+      document.getElementById('munTbl1Title'),
+      document.getElementById('munTbl1H1'), document.getElementById('munTbl1H2'),
+      document.getElementById('munTbl1H3'), document.getElementById('munTbl1H4'),
+      document.getElementById('munTbl1R1C1'), document.getElementById('munTbl1R1C2'),
+      document.getElementById('munTbl1R2C1'), document.getElementById('munTbl1R2C2'),
+      document.getElementById('munTbl1R3C1'), document.getElementById('munTbl1R3C2'),
+      document.getElementById('munTbl2Title'),
+      document.getElementById('munTbl2H1'), document.getElementById('munTbl2H2'), document.getElementById('munTbl2H3'),
+      document.getElementById('munTbl2R1C1'), document.getElementById('munTbl2R2C1'),
+      document.getElementById('munTbl2R3C1'), document.getElementById('munTbl2R4C1'),
+      document.getElementById('munTbl2R5C1'), document.getElementById('munTbl2R6C1'),
+      document.getElementById('munPortLabel'),
+      document.getElementById('munPortTitle'),
+      document.getElementById('munPortDesc'),
+      document.getElementById('mapLabel1'),  document.getElementById('mapLabel2'),
+      document.getElementById('mapLabel3'),  document.getElementById('mapLabel4'),
+      document.getElementById('mapLabel5'),  document.getElementById('mapLabel6'),
+      document.getElementById('mapLabel7'),  document.getElementById('mapLabel8'),
+      document.getElementById('mapLabel9'),  document.getElementById('mapLabel10'),
+      document.getElementById('mapLabel11'), document.getElementById('mapLabel12'),
+      document.getElementById('btnTxtExt'),
+      document.getElementById('extNote'),
+      document.getElementById('condLabel'),
+      document.getElementById('condTitle'),
+      document.getElementById('condDesc'),
+      document.getElementById('condCard1Title'), document.getElementById('condCard1Text'),
+      document.getElementById('condCard2Title'), document.getElementById('condCard2Text'),
+      document.getElementById('condCard3Title'), document.getElementById('condCard3Text'),
+      document.getElementById('condCard4Title'), document.getElementById('condCard4Text'),
+      document.getElementById('contactLabel'),
+      document.getElementById('contactTitle'),
+      document.getElementById('contactDesc'),
+      document.getElementById('contactNote'),
+      document.getElementById('footerText')
+    ];
+
+    els.forEach(function(el) {
+      el.style.transition = 'opacity .2s ease';
+      el.style.opacity = '0';
+    });
+
+    setTimeout(function() {
+      document.getElementById('heroEyebrow').textContent  = t.eyebrow;
+      document.getElementById('heroSubtitle').textContent = t.subtitle;
+      document.getElementById('heroDesc').textContent     = t.desc;
+      document.getElementById('tabAvatares').textContent  = t.tabs.avatares;
+      document.getElementById('tabMundos').textContent    = t.tabs.mundos;
+      document.getElementById('tabExtras').textContent    = t.tabs.extras;
+      document.getElementById('tabContacto').textContent  = t.tabs.contacto;
+      document.getElementById('avLabel').textContent      = t.avLabel;
+      document.getElementById('avTitle').textContent      = t.avTitle;
+      document.getElementById('avDesc').textContent       = t.avDesc;
+      document.getElementById('slotsNotice').innerHTML    = t.slots;
+      document.getElementById('starterTagline').textContent = t.starterTagline;
+      document.getElementById('starterLi1').innerHTML     = t.starterLi1;
+      document.getElementById('starterLi2').innerHTML     = t.starterLi2;
+      document.getElementById('starterLi3').innerHTML     = t.starterLi3;
+      document.getElementById('starterLabel1').textContent = t.starterLabel1;
+      document.getElementById('starterLabel2').textContent = t.starterLabel2;
+      document.getElementById('starterHint').textContent  = t.starterHint;
+      document.getElementById('debutTagline').textContent  = t.debutTagline;
+      document.getElementById('debutLi1').innerHTML        = t.debutLi1;
+      document.getElementById('debutLi2').innerHTML        = t.debutLi2;
+      document.getElementById('debutLi3').innerHTML        = t.debutLi3;
+      document.getElementById('debutLabel1').textContent   = t.debutLabel1;
+      document.getElementById('debutLabel2').textContent   = t.debutLabel2;
+      document.getElementById('debutHint').textContent     = t.debutHint;
+      document.getElementById('signatureBadge').textContent  = t.signatureBadge;
+      document.getElementById('signatureTagline').textContent = t.signatureTagline;
+      document.getElementById('signatureLi1').innerHTML    = t.signatureLi1;
+      document.getElementById('signatureLi2').innerHTML    = t.signatureLi2;
+      document.getElementById('signatureLi3').innerHTML    = t.signatureLi3;
+      document.getElementById('signatureLabel1').textContent = t.signatureLabel1;
+      document.getElementById('signatureLabel2').textContent = t.signatureLabel2;
+      document.getElementById('signatureHint').textContent = t.signatureHint;
+      document.getElementById('prestigeBadge').textContent   = t.prestigeBadge;
+      document.getElementById('prestigeTagline').textContent = t.prestigeTagline;
+      document.getElementById('prestigeLi1').innerHTML       = t.prestigeLi1;
+      document.getElementById('prestigeLi2').innerHTML       = t.prestigeLi2;
+      document.getElementById('prestigeLi3').innerHTML       = t.prestigeLi3;
+      document.getElementById('prestigeLabel1').textContent  = t.prestigeLabel1;
+      document.getElementById('prestigeLabel2').textContent  = t.prestigeLabel2;
+      document.getElementById('prestigeHint').textContent    = t.prestigeHint;
+      document.getElementById('btnTxtAv').textContent        = t.btnTxtAv;
+      document.getElementById('avPriceNote').innerHTML        = t.avPriceNote;
+      var tb1 = t.avTbl1;
+      document.getElementById('avTbl1Title').textContent = tb1.title;
+      document.getElementById('avTbl1H1').textContent    = tb1.h1;
+      document.getElementById('avTbl1H2').textContent    = tb1.h2;
+      document.getElementById('avTbl1H3').textContent    = tb1.h3;
+      document.getElementById('avTbl1H4').textContent    = tb1.h4;
+      document.getElementById('avTbl1R1C1').textContent  = tb1.r1c1;
+      document.getElementById('avTbl1R1C2').textContent  = tb1.r1c2;
+      document.getElementById('avTbl1R2C1').textContent  = tb1.r2c1;
+      document.getElementById('avTbl1R2C2').textContent  = tb1.r2c2;
+      document.getElementById('avTbl1R3C1').textContent  = tb1.r3c1;
+      document.getElementById('avTbl1R3C2').textContent  = tb1.r3c2;
+      document.getElementById('avTbl1R4C1').textContent  = tb1.r4c1;
+      document.getElementById('avTbl1R4C2').textContent  = tb1.r4c2;
+      document.getElementById('avTbl1R5C1').textContent  = tb1.r5c1;
+      document.getElementById('avTbl1R5C2').textContent  = tb1.r5c2;
+      var tb2 = t.avTbl2;
+      document.getElementById('avTbl2Title').textContent = tb2.title;
+      document.getElementById('avTbl2H1').textContent    = tb2.h1;
+      document.getElementById('avTbl2H2').textContent    = tb2.h2;
+      document.getElementById('avTbl2H3').textContent    = tb2.h3;
+      document.getElementById('avTbl2H4').textContent    = tb2.h4;
+      document.getElementById('avTbl2R1C1').textContent  = tb2.r1c1;
+      document.getElementById('avTbl2R1C2').textContent  = tb2.r1c2;
+      document.getElementById('avTbl2R2C1').textContent  = tb2.r2c1;
+      document.getElementById('avTbl2R2C2').textContent  = tb2.r2c2;
+      document.getElementById('avTbl2R3C1').textContent  = tb2.r3c1;
+      document.getElementById('avTbl2R3C2').textContent  = tb2.r3c2;
+      document.getElementById('avTbl2R4C1').textContent  = tb2.r4c1;
+      document.getElementById('avTbl2R4C2').textContent  = tb2.r4c2;
+      var tb3 = t.avTbl3;
+      document.getElementById('avTbl3Title').textContent = tb3.title;
+      document.getElementById('avTbl3H1').textContent    = tb3.h1;
+      document.getElementById('avTbl3H2').textContent    = tb3.h2;
+      document.getElementById('avTbl3H3').textContent    = tb3.h3;
+      document.getElementById('avTbl3H4').textContent    = tb3.h4;
+      document.getElementById('avTbl3R1C1').textContent  = tb3.r1c1;
+      document.getElementById('avTbl3R1C2').textContent  = tb3.r1c2;
+      document.getElementById('avTbl3R2C1').textContent  = tb3.r2c1;
+      document.getElementById('avTbl3R2C2').textContent  = tb3.r2c2;
+      document.getElementById('avTbl3R3C1').textContent  = tb3.r3c1;
+      document.getElementById('avTbl3R3C2').textContent  = tb3.r3c2;
+      var tb4 = t.avTbl4;
+      document.getElementById('avTbl4Title').textContent = tb4.title;
+      document.getElementById('avTbl4H1').textContent    = tb4.h1;
+      document.getElementById('avTbl4H2').textContent    = tb4.h2;
+      document.getElementById('avTbl4H3').textContent    = tb4.h3;
+      document.getElementById('avTbl4R1C1').textContent  = tb4.r1c1;
+      document.getElementById('avTbl4R2C1').textContent  = tb4.r2c1;
+      var tb5 = t.avTbl5;
+      document.getElementById('avTbl5Title').textContent = tb5.title;
+      document.getElementById('avTbl5H1').textContent    = tb5.h1;
+      document.getElementById('avTbl5H2').textContent    = tb5.h2;
+      document.getElementById('avTbl5H3').textContent    = tb5.h3;
+      document.getElementById('avTbl5R1C1').textContent  = tb5.r1c1;
+      document.getElementById('avTbl5R2C1').textContent  = tb5.r2c1;
+      var tb6 = t.avTbl6;
+      document.getElementById('avTbl6Title').textContent = tb6.title;
+      document.getElementById('avTbl6H1').textContent    = tb6.h1;
+      document.getElementById('avTbl6H2').textContent    = tb6.h2;
+      document.getElementById('avTbl6R1C1').textContent  = tb6.r1c1;
+      document.getElementById('avTbl6R2C1').textContent  = tb6.r2c1;
+      document.getElementById('avTbl6R3C1').textContent  = tb6.r3c1;
+      document.getElementById('avPortLabel').textContent  = t.avPortLabel;
+      document.getElementById('avPortTitle').textContent  = t.avPortTitle;
+      document.getElementById('avPortDesc').textContent   = t.avPortDesc;
+      document.getElementById('avPairLabel1').textContent = t.avPairRef;
+      document.getElementById('avPairLabel2').textContent = t.avPairResult;
+      document.getElementById('avPairLabel3').textContent = t.avPairRef;
+      document.getElementById('avPairLabel4').textContent = t.avPairResult;
+      document.getElementById('nekkowa-main').textContent = t.nekkowaMain;
+      document.getElementById('nekkowa-sub').textContent  = t.nekkowaSub;
+      document.getElementById('munLabel').textContent     = t.munLabel;
+      document.getElementById('munTitle').textContent     = t.munTitle;
+      document.getElementById('munDesc').textContent      = t.munDesc;
+      document.getElementById('hideoutTagline').textContent  = t.hideoutTagline;
+      document.getElementById('hideoutLi1').innerHTML        = t.hideoutLi1;
+      document.getElementById('hideoutLi2').textContent      = t.hideoutLi2;
+      document.getElementById('hideoutLi3').textContent      = t.hideoutLi3;
+      document.getElementById('hideoutLabel1').textContent   = t.hideoutLabel1;
+      document.getElementById('hideoutLabel2').textContent   = t.hideoutLabel2;
+      document.getElementById('hideoutHint').textContent     = t.hideoutHint;
+      document.getElementById('studioBadge').textContent     = t.studioBadge;
+      document.getElementById('studioTagline').textContent   = t.studioTagline;
+      document.getElementById('studioLi1').innerHTML         = t.studioLi1;
+      document.getElementById('studioLi2').innerHTML         = t.studioLi2;
+      document.getElementById('studioLi3').textContent       = t.studioLi3;
+      document.getElementById('studioLabel1').textContent    = t.studioLabel1;
+      document.getElementById('studioLabel2').textContent    = t.studioLabel2;
+      document.getElementById('studioHint').textContent      = t.studioHint;
+      document.getElementById('landmarkBadge').textContent   = t.landmarkBadge;
+      document.getElementById('landmarkTagline').textContent = t.landmarkTagline;
+      document.getElementById('landmarkLi1').innerHTML       = t.landmarkLi1;
+      document.getElementById('landmarkLi2').innerHTML       = t.landmarkLi2;
+      document.getElementById('landmarkLi3').textContent     = t.landmarkLi3;
+      document.getElementById('landmarkLabel1').textContent  = t.landmarkLabel1;
+      document.getElementById('landmarkLabel2').textContent  = t.landmarkLabel2;
+      document.getElementById('landmarkHint').textContent    = t.landmarkHint;
+      document.getElementById('btnTxtMun').textContent       = t.btnTxtMun;
+      document.getElementById('munPriceNote').innerHTML      = t.munPriceNote;
+      var mt1 = t.munTbl1;
+      document.getElementById('munTbl1Title').textContent = mt1.title;
+      document.getElementById('munTbl1H1').textContent    = mt1.h1;
+      document.getElementById('munTbl1H2').textContent    = mt1.h2;
+      document.getElementById('munTbl1H3').textContent    = mt1.h3;
+      document.getElementById('munTbl1H4').textContent    = mt1.h4;
+      document.getElementById('munTbl1R1C1').textContent  = mt1.r1c1;
+      document.getElementById('munTbl1R1C2').textContent  = mt1.r1c2;
+      document.getElementById('munTbl1R2C1').textContent  = mt1.r2c1;
+      document.getElementById('munTbl1R2C2').textContent  = mt1.r2c2;
+      document.getElementById('munTbl1R3C1').textContent  = mt1.r3c1;
+      document.getElementById('munTbl1R3C2').textContent  = mt1.r3c2;
+      var mt2 = t.munTbl2;
+      document.getElementById('munTbl2Title').textContent = mt2.title;
+      document.getElementById('munTbl2H1').textContent    = mt2.h1;
+      document.getElementById('munTbl2H2').textContent    = mt2.h2;
+      document.getElementById('munTbl2H3').textContent    = mt2.h3;
+      document.getElementById('munTbl2R1C1').textContent  = mt2.r1c1;
+      document.getElementById('munTbl2R2C1').textContent  = mt2.r2c1;
+      document.getElementById('munTbl2R3C1').textContent  = mt2.r3c1;
+      document.getElementById('munTbl2R4C1').textContent  = mt2.r4c1;
+      document.getElementById('munTbl2R5C1').textContent  = mt2.r5c1;
+      document.getElementById('munTbl2R6C1').textContent  = mt2.r6c1;
+      document.getElementById('munPortLabel').textContent = t.munPortLabel;
+      document.getElementById('munPortTitle').textContent = t.munPortTitle;
+      document.getElementById('munPortDesc').textContent  = t.munPortDesc;
+      t.mapLabels.forEach(function(label, i) {
+        document.getElementById('mapLabel' + (i + 1)).textContent = label;
+      });
+      document.getElementById('btnTxtExt').textContent = t.btnTxtExt;
+      document.getElementById('extNote').innerHTML     = t.extNote;
+      document.getElementById('condLabel').textContent     = t.condLabel;
+      document.getElementById('condTitle').textContent     = t.condTitle;
+      document.getElementById('condDesc').textContent      = t.condDesc;
+      document.getElementById('condCard1Title').textContent = t.condCard1Title;
+      document.getElementById('condCard1Text').innerHTML    = t.condCard1Text;
+      document.getElementById('condCard2Title').textContent = t.condCard2Title;
+      document.getElementById('condCard2Text').innerHTML    = t.condCard2Text;
+      document.getElementById('condCard3Title').textContent = t.condCard3Title;
+      document.getElementById('condCard3Text').innerHTML    = t.condCard3Text;
+      document.getElementById('condCard4Title').textContent = t.condCard4Title;
+      document.getElementById('condCard4Text').innerHTML    = t.condCard4Text;
+      document.getElementById('contactLabel').textContent   = t.contactLabel;
+      document.getElementById('contactTitle').textContent   = t.contactTitle;
+      document.getElementById('contactDesc').textContent    = t.contactDesc;
+      document.getElementById('contactNote').innerHTML      = t.contactNote;
+      document.getElementById('footerText').textContent     = t.footerText;
+      window.currentLang = lang;
+      els.forEach(function(el) { el.style.opacity = '1'; });
+    }, 200);
+
+    var newLabel = lang === 'es' ? 'EN' : 'ES';
+    document.querySelectorAll('.lang-fab-label').forEach(function(el) {
+      el.textContent = newLabel;
+    });
+  }
+
+  document.querySelectorAll('#langFab, #floatLangFab').forEach(function(btn) {
+    btn.addEventListener('click', toggleLang);
+  });
+  var floatBtn = document.getElementById('floatLangFab');
+  if (floatBtn) floatBtn.removeAttribute('onclick');
+})();
+
+// ── Sticky observer: muestra botones flotantes antes de la barra, y dentro cuando es sticky
+(function() {
+  var nav = document.getElementById('tabNav');
+  var sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute;height:1px;width:1px;pointer-events:none;';
+  nav.parentNode.insertBefore(sentinel, nav);
+
+  var observer = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      document.body.classList.remove('nav-sticky');
+    } else {
+      document.body.classList.add('nav-sticky');
+    }
+  }, { threshold: 0, rootMargin: '0px' });
+
+  observer.observe(sentinel);
+
+  // Sincronizar el badge del botón flotante con el del nav
+  var origRenderCart = window.renderCart;
+  window.renderCart = function() {
+    if (origRenderCart) origRenderCart();
+    var mainBadge = document.getElementById('cartBadge');
+    var floatBadge = document.getElementById('cartBadgeFloat');
+    if (mainBadge && floatBadge) floatBadge.textContent = mainBadge.textContent;
+  };
+})();
 </script>
 
 <!-- ── MODAL ── -->
@@ -1790,21 +2751,33 @@ document.addEventListener('keydown', e => {
     <h2 class="modal-pkg-name" id="mName"></h2>
     <p class="modal-pkg-tag"  id="mTag"></p>
     <div class="modal-div"></div>
-    <p class="modal-section-title">Desglose de servicios incluidos</p>
+    <p class="modal-section-title" id="modalSectionTitle">Desglose de servicios incluidos</p>
     <div class="modal-rows" id="mRows"></div>
     <div class="modal-total-block">
       <div class="modal-total-row">
-        <span class="modal-total-label">Suma por separado</span>
+        <span class="modal-total-label" id="mSumLabel">Suma por separado</span>
         <span class="modal-total-val" id="mSumVal"></span>
       </div>
       <div class="modal-total-row">
-        <span class="modal-total-label">Precio apertura</span>
+        <span class="modal-total-label" id="mOpenLabel">Precio apertura</span>
         <span class="modal-total-val hi" id="mOpenVal"></span>
       </div>
       <div class="modal-saving" id="mSaving"></div>
     </div>
-    <p class="modal-legend">✦ Los precios del paquete se calculan tomando el punto medio de los rangos de cada servicio individual, por lo que el total puede variar ligeramente según la complejidad real de tu proyecto. El precio de apertura refleja un descuento aplicado mientras haya slots disponibles. Todos los precios en USD.</p>
+    <p class="modal-legend" id="mLegend">✦ Los precios del paquete se calculan tomando el punto medio de los rangos de cada servicio individual, por lo que el total puede variar ligeramente según la complejidad real de tu proyecto. El precio de apertura refleja un descuento aplicado mientras haya slots disponibles. Todos los precios en USD.</p>
   </div>
+</div>
+
+<!-- ── BOTONES FLOTANTES (antes de que aparezca la barra) ── -->
+<div class="float-actions" id="floatActions">
+  <button class="lang-fab" id="floatLangFab" onclick="document.getElementById('langFab').click()">
+    <span class="lang-fab-icon">🌐</span>
+    <span class="lang-fab-label">EN</span>
+  </button>
+  <button class="cart-fab" onclick="toggleCart()">
+    <span class="cart-fab-icon">🛒</span>
+    <span class="cart-badge" id="cartBadgeFloat">0</span>
+  </button>
 </div>
 
 </body>
