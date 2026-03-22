@@ -567,6 +567,12 @@ footer { position:relative; z-index:2; text-align:center; padding:clamp(20px,3vw
 }
 .tab-icon { font-size: clamp(14px, 2vw, 16px); }
 
+@media (max-width: 520px) {
+  .tab-label { display: none; }
+  .tab-btn { padding: clamp(14px, 2.5vw, 20px) clamp(10px, 2.5vw, 16px); gap: 0; }
+  .tab-nav-actions { gap: 6px; padding-right: 8px; }
+}
+
 /* ── FLOATING ACTIONS (pre-sticky) ── */
 .float-actions {
   position: fixed;
