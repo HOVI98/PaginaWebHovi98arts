@@ -1516,6 +1516,31 @@ body:not(.nav-sticky) .tab-nav-actions {
         <h3 class="cond-title" id="condCard4Title">Derecho de Admisión</h3>
         <p class="cond-text" id="condCard4Text">Me reservo el derecho de <strong>aceptar o rechazar cualquier proyecto</strong> que vaya en contra de mis principios o valores, sin necesidad de dar una justificación detallada. Esto aplica antes de iniciar cualquier acuerdo formal.</p>
       </div>
+      <div class="cond-card">
+        <span class="cond-icon">🏦</span>
+        <h3 class="cond-title" id="condCard5Title">Métodos de Pago</h3>
+        <p class="cond-text" id="condCard5Text">Pagos vía <strong>transferencia interbancaria</strong> disponible solo para clientes en <strong>México</strong>. Clientes internacionales pueden pagar por <strong>PayPal</strong> — la comisión de la plataforma corre por cuenta del cliente.</p>
+      </div>
+      <div class="cond-card">
+        <span class="cond-icon">🚫</span>
+        <h3 class="cond-title" id="condCard6Title">Reventa Prohibida</h3>
+        <p class="cond-text" id="condCard6Text">Queda <strong>estrictamente prohibida</strong> la reventa total o parcial del trabajo comisionado, ya sea como activo, archivo o producto derivado, sin autorización expresa por escrito.</p>
+      </div>
+      <div class="cond-card">
+        <span class="cond-icon">📢</span>
+        <h3 class="cond-title" id="condCard7Title">Publicación</h3>
+        <p class="cond-text" id="condCard7Text">Al publicar el trabajo comisionado, el cliente deberá incluir <strong>mención o crédito al creador</strong>. HoviArts se reserva el derecho de <strong>publicar el trabajo como muestra de portfolio</strong> salvo acuerdo previo de confidencialidad.</p>
+      </div>
+      <div class="cond-card">
+        <span class="cond-icon">⏳</span>
+        <h3 class="cond-title" id="condCard9Title">Tiempos de Entrega</h3>
+        <p class="cond-text" id="condCard9Text">El tiempo de desarrollo varía según la complejidad del proyecto. El margen estimado es de <strong>2 semanas a 6 meses</strong> a partir de la confirmación del pago inicial. Se informará al cliente de los avances en cada etapa.</p>
+      </div>
+      <div class="cond-card">
+        <span class="cond-icon">✅</span>
+        <h3 class="cond-title" id="condCard8Title">Aceptación de Términos</h3>
+        <p class="cond-text" id="condCard8Text">Al realizar una comisión, el cliente <strong>acepta automáticamente</strong> todos los términos y condiciones aquí mencionados. Se recomienda leerlos antes de iniciar cualquier proyecto.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -2387,6 +2412,16 @@ document.addEventListener('keydown', e => {
       condCard3Text: 'Para avatares, el cliente llega con <strong>referencia clara</strong> — diseño 2D o descripción detallada. Para mapas se incluye etapa de concepto inicial. Toda comunicación por escrito.',
       condCard4Title: 'Derecho de Admisión',
       condCard4Text: 'Me reservo el derecho de <strong>aceptar o rechazar cualquier proyecto</strong> que vaya en contra de mis principios o valores, sin necesidad de dar una justificación detallada. Esto aplica antes de iniciar cualquier acuerdo formal.',
+      condCard5Title: 'Métodos de Pago',
+      condCard5Text: 'Pagos vía <strong>transferencia interbancaria</strong> disponible solo para clientes en <strong>México</strong>. Clientes internacionales pueden pagar por <strong>PayPal</strong> — la comisión de la plataforma corre por cuenta del cliente.',
+      condCard6Title: 'Reventa Prohibida',
+      condCard6Text: 'Queda <strong>estrictamente prohibida</strong> la reventa total o parcial del trabajo comisionado, ya sea como activo, archivo o producto derivado, sin autorización expresa por escrito.',
+      condCard7Title: 'Publicación',
+      condCard7Text: 'Al publicar el trabajo comisionado, el cliente deberá incluir <strong>mención o crédito al creador</strong>. HoviArts se reserva el derecho de <strong>publicar el trabajo como muestra de portfolio</strong> salvo acuerdo previo de confidencialidad.',
+      condCard8Title: 'Aceptación de Términos',
+      condCard8Text: 'Al realizar una comisión, el cliente <strong>acepta automáticamente</strong> todos los términos y condiciones aquí mencionados. Se recomienda leerlos antes de iniciar cualquier proyecto.',
+      condCard9Title: 'Tiempos de Entrega',
+      condCard9Text: 'El tiempo de desarrollo varía según la complejidad del proyecto. El margen estimado es de <strong>2 semanas a 6 meses</strong> a partir de la confirmación del pago inicial. Se informará al cliente de los avances en cada etapa.',
       contactLabel: '✦ Contacto',
       contactTitle: '¿Listo para comenzar?',
       contactDesc: 'Escríbeme con tu idea y referencia. Con gusto te cotizo y resolvemos cualquier duda antes de comenzar.',
@@ -2552,6 +2587,16 @@ document.addEventListener('keydown', e => {
       condCard3Text: 'For avatars, the client must provide a <strong>clear reference</strong> — 2D design or detailed description. For maps, an initial concept stage is included. All communication in writing.',
       condCard4Title: 'Right of Admission',
       condCard4Text: 'I reserve the right to <strong>accept or reject any project</strong> that goes against my principles or values, without needing to provide a detailed justification. This applies before starting any formal agreement.',
+      condCard5Title: 'Payment Methods',
+      condCard5Text: 'Payments via <strong>bank transfer</strong> available only for clients in <strong>Mexico</strong>. International clients can pay via <strong>PayPal</strong> — the platform fee is covered by the client.',
+      condCard6Title: 'Resale Prohibited',
+      condCard6Text: 'The total or partial <strong>resale of commissioned work</strong> is strictly prohibited, whether as an asset, file, or derivative product, without prior written authorization.',
+      condCard7Title: 'Publication',
+      condCard7Text: 'When publishing commissioned work, the client must include a <strong>mention or credit to the creator</strong>. HoviArts reserves the right to <strong>publish the work as portfolio showcase</strong> unless a prior confidentiality agreement is in place.',
+      condCard8Title: 'Acceptance of Terms',
+      condCard8Text: 'By placing a commission, the client <strong>automatically agrees</strong> to all terms and conditions stated here. It is recommended to read them before starting any project.',
+      condCard9Title: 'Delivery Timeline',
+      condCard9Text: 'Development time varies based on project complexity. The estimated timeframe is <strong>2 weeks to 6 months</strong> from confirmation of the initial payment. The client will be kept informed of progress at each stage.',
       contactLabel: '✦ Contact',
       contactTitle: 'Ready to get started?',
       contactDesc: 'Write to me with your idea and reference. I\'ll be happy to quote you and answer any questions before we begin.',
@@ -2705,6 +2750,11 @@ document.addEventListener('keydown', e => {
       document.getElementById('condCard2Title'), document.getElementById('condCard2Text'),
       document.getElementById('condCard3Title'), document.getElementById('condCard3Text'),
       document.getElementById('condCard4Title'), document.getElementById('condCard4Text'),
+      document.getElementById('condCard5Title'), document.getElementById('condCard5Text'),
+      document.getElementById('condCard6Title'), document.getElementById('condCard6Text'),
+      document.getElementById('condCard7Title'), document.getElementById('condCard7Text'),
+      document.getElementById('condCard8Title'), document.getElementById('condCard8Text'),
+      document.getElementById('condCard9Title'), document.getElementById('condCard9Text'),
       document.getElementById('contactLabel'),
       document.getElementById('contactTitle'),
       document.getElementById('contactDesc'),
@@ -2904,6 +2954,16 @@ document.addEventListener('keydown', e => {
       document.getElementById('condCard3Text').innerHTML    = t.condCard3Text;
       document.getElementById('condCard4Title').textContent = t.condCard4Title;
       document.getElementById('condCard4Text').innerHTML    = t.condCard4Text;
+      document.getElementById('condCard5Title').textContent = t.condCard5Title;
+      document.getElementById('condCard5Text').innerHTML    = t.condCard5Text;
+      document.getElementById('condCard6Title').textContent = t.condCard6Title;
+      document.getElementById('condCard6Text').innerHTML    = t.condCard6Text;
+      document.getElementById('condCard7Title').textContent = t.condCard7Title;
+      document.getElementById('condCard7Text').innerHTML    = t.condCard7Text;
+      document.getElementById('condCard8Title').textContent = t.condCard8Title;
+      document.getElementById('condCard8Text').innerHTML    = t.condCard8Text;
+      document.getElementById('condCard9Title').textContent = t.condCard9Title;
+      document.getElementById('condCard9Text').innerHTML    = t.condCard9Text;
       document.getElementById('contactLabel').textContent   = t.contactLabel;
       document.getElementById('contactTitle').textContent   = t.contactTitle;
       document.getElementById('contactDesc').textContent    = t.contactDesc;
